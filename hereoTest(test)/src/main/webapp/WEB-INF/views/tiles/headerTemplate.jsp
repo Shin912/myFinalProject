@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link href="<c:url value='/resources/css/common/topBar.css'></c:url>" rel="stylesheet" />
-<link href="<c:url value='/resources/css/common/font.css'></c:url>" rel="stylesheet">
+<link href="<c:url value='/resources/css/common/font.css'></c:url>" rel="stylesheet" />
+<script type="text/javascript" src="<c:url value='/resources/js/common/jquery.js'></c:url>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/common/click_menu.js'></c:url>"></script>
 
    <header class="topBar">
@@ -38,12 +39,17 @@
               </ul>
             </li>
             <li class="menu-container__box top-menu__league-hover">
-              <a href="#"><span>리그</span></a>
+              <a href="<c:url value='/league/main'></c:url>"><span>리그</span></a>
               <ul class="submenu-containerBox1 league-submenu__01">
                 <li>
-                  <a href="../recodeGame/insertScore.html" target="_top"
-                    >리그 기록</a
-                  >
+                  <a href="<c:url value='/league/main'></c:url>" target="_top">
+                  리그 찾기
+                  </a>
+                </li>
+                <li>
+                  <a href="<c:url value='/league/main'></c:url>" target="_top">
+                  리그 메인
+                  </a>
                 </li>
               </ul>
             </li>

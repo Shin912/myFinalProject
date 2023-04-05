@@ -5,7 +5,7 @@
 <link href="<c:url value='/resources/css/league/league-side.css'></c:url>" rel="stylesheet">
 <link href="<c:url value='/resources/css/common/bootstrap.min.css'></c:url>" rel="stylesheet">
 
-<div class="container-side">
+<sidebar>
 	<ul class="list-main-menu">
 		<li class="item-main-menu">
 			<a href="#" class="link-main-menu">리그소개</a>
@@ -69,7 +69,7 @@
 			</div>
 		</li>
 	</ul>
-</div>
+</sidebar>
 
 	<script>
 		$('.link-main-menu').click((e)=>e.preventDefault());

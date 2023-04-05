@@ -11,18 +11,18 @@ ul, li{
 	list-style: none;
 }
 
-.container-side{
+.list-main-menu{
 	height: auto; width: 300px;
 	min-height: 100%;
-	display: flex	;
+	display: flex;
 	flex-direction: column;
-	position: relative; top: 150px;
+	position: relative; top: 196px;
 	z-index: 2; 
 	background-color: #1a4173;
 }
 
 .list-main-menu{
-	margin-top: 10px;
+	margin-top: 10px; float:left;
 }
 
 .item-main-menu{

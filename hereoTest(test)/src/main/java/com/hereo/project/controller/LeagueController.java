@@ -22,6 +22,16 @@ public class LeagueController {
 		mv.setViewName("/league/league-main");
 		return mv;
 	}
+	@RequestMapping(value = "/league/recodeHit", method = RequestMethod.GET)
+	public ModelAndView leagueRecodeHit(ModelAndView mv) {
+		mv.setViewName("/league/league-recode-hit");
+		return mv;
+	}
+	@RequestMapping(value = "/league/recodePit", method = RequestMethod.GET)
+	public ModelAndView leagueRecodePit(ModelAndView mv) {
+		mv.setViewName("/league/league-recode-pit");
+		return mv;
+	}
 	
 	
 	
