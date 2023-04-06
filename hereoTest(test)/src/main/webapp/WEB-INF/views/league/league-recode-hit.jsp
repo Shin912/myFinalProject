@@ -137,3 +137,14 @@
 	</div>
 
 	</div>
+	
+	
+<script>
+$('.nav-link').click((e)=>e.preventDefault());
+$('.nav-link').click(function(){
+	$('.nav-link').removeClass('active');
+	$(this).addClass('active');
+	$('.middle-box.register').addClass('hidden');
+});
+
+</script>
