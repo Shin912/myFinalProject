@@ -18,12 +18,11 @@
 	position: relative; bottom: 3px;
 }
 
+
 .bottom-box{
 	width: 1200px;
 }
-.hidden{
-	display: none;
-}
+
 
 .table{
 	width: 100%;  border-collapse: collapse;
@@ -31,7 +30,7 @@
 }
 .table thead th{
 	font-size: 12px; padding: 12px;
-	border-top: 1px solid black;
+	border-top: 1px solid black; border-bottom: 1px solid black;
 }
 
 .table tbody td{

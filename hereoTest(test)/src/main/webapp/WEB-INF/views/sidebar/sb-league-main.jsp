@@ -39,7 +39,7 @@
 						</a>
 					</li>
 					<li class="item-sub-menu">
-						<a href="<c:url value='/league/managerment'></c:url>">
+						<a href="<c:url value='/league/schedulemanagerment'></c:url>">
 							<span class="menu-title">리그관리</span>
 						</a>
 					</li>
@@ -56,7 +56,7 @@
 						</a>
 					</li>
 					<li class="item-sub-menu">
-						<a href="#">
+						<a href="<c:url value='/league/recodeTeam'></c:url>">
 							<span class="menu-title">팀순위</span>
 						</a>
 					</li>

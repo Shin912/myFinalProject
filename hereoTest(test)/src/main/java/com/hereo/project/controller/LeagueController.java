@@ -32,6 +32,11 @@ public class LeagueController {
 		mv.setViewName("/league/league-recode-pit");
 		return mv;
 	}
+	@RequestMapping(value = "/league/recodeTeam", method = RequestMethod.GET)
+	public ModelAndView leagueRecodeTeam(ModelAndView mv) {
+		mv.setViewName("/league/league-recode-team");
+		return mv;
+	}
 	@RequestMapping(value = "/league/schedule", method = RequestMethod.GET)
 	public ModelAndView leagueSchedule(ModelAndView mv) {
 		mv.setViewName("/league/league-schedule");
@@ -42,9 +47,14 @@ public class LeagueController {
 		mv.setViewName("/league/league-enroll");
 		return mv;
 	}
-	@RequestMapping(value = "/league/managerment", method = RequestMethod.GET)
-	public ModelAndView leagueManagerment(ModelAndView mv) {
-		mv.setViewName("/league/league-managerment");
+	@RequestMapping(value = "/league/partimanagerment", method = RequestMethod.GET)
+	public ModelAndView leaguePartiManagerment(ModelAndView mv) {
+		mv.setViewName("/league/league-parti-managerment");
+		return mv;
+	}
+	@RequestMapping(value = "/league/schedulemanagerment", method = RequestMethod.GET)
+	public ModelAndView leagueScheduleManagerment(ModelAndView mv) {
+		mv.setViewName("/league/league-schedule-managerment");
 		return mv;
 	}
 	

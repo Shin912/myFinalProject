@@ -38,6 +38,18 @@
 						<option>주말4부리그</option>
 					</select>
 				</div>
+				<div class="form-group">	
+					<label for="league-team"></label>
+					<select class="form-control" id="league-team">
+						<option selected>없음</option>
+						<option>kia타이거즈</option>
+						<option>kt위즈</option>
+						<option>두산 베어스</option>
+						<option>ssg랜더스</option>
+						<option>롯데 자이언트</option>
+						<option>lg트윈스</option>
+					</select>
+				</div>
 				<button type="button" class="btn btn-outline-secondary">검색</button>
 			</form>
 		</div>
@@ -74,7 +86,7 @@
 							<span class="team"><a href="">펠컨스</a></span>
 						</div>
 					</td>
-					<td>경기전</td>
+					<td>경기후</td>
 					<td>
 						<button type="button" class="btn btn-secondary">경기기록</button>
 					</td>

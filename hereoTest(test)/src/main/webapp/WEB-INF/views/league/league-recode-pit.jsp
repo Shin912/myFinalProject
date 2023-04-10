@@ -45,11 +45,23 @@
 							<option>주말4부리그</option>
 						</select>
 					</div>
+					<div class="form-group">	
+						<label for="league-team"></label>
+						<select class="form-control" id="league-team">
+							<option selected>없음</option>
+							<option>kia타이거즈</option>
+							<option>kt위즈</option>
+							<option>두산 베어스</option>
+							<option>ssg랜더스</option>
+							<option>롯데 자이언트</option>
+							<option>lg트윈스</option>
+						</select>
+					</div>
 					<button type="button" class="btn btn-outline-secondary">검색</button>
 				</form>
 			</div>
 		</div>
-	<div class="bottom-box">
+	<div class="bottom-box pit">
 		<table class="table">
 			<thead>
 				<tr>
