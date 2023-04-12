@@ -4,7 +4,7 @@
 
 <div class="main-container">
 
-				<div class="top-box">
+		<div class="top-box">
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
 					<a class="nav-link" href="<c:url value='/league/recodeHit'></c:url>">타자</a>
