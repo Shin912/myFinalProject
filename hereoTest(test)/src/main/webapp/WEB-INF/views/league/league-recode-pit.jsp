@@ -1,10 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link href="<c:url value='/resources/css/common/bootstrap.min.css'></c:url>" rel="stylesheet">
+<link href="<c:url value='/resources/css/common/style.css'></c:url>" rel="stylesheet">
 <link href="<c:url value='/resources/css/league/league-recode-pit.css'></c:url>" rel="stylesheet">
 
 <div class="main-container">
 
-		<div class="top-box">
+				<div class="top-box">
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
 					<a class="nav-link" href="<c:url value='/league/recodeHit'></c:url>">타자</a>

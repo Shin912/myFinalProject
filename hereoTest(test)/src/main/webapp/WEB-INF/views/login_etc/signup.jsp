@@ -131,14 +131,19 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
           <div class="signup-container">
             <label for="gender">성별 :</label><br />
             <div class="signup-gender">
-            <label>
-            	<span class="genderType-letter">남</span>
-            	<input type="radio" class="signUp-form gender-type" name="me_gender" value="1">
-            </label>
-            <label>
-            	<span class="genderType-letter">여</span>
-            	<input type="radio" class="signUp-form gender-type" name="me_gender" value="2">
-            </label>
+              <span class="genderType-letter">남</span>
+              <input
+                type="radio"
+                class="signUp-form gender-type"
+                name="me_gender"
+                value="1"
+              /><span class="genderType-letter">여</span>
+              <input
+                type="radio"
+                class="signUp-form gender-type"
+                name="me_gender"
+                value="2"
+              />
             </div>
           </div>
           <div class="signup-container">

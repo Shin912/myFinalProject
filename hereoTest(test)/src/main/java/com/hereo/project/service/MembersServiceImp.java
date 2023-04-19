@@ -27,8 +27,17 @@ public class MembersServiceImp implements MembersService{
 	public MembersVO login(MembersVO user) {
 		if(user==null || user.getMe_id()==null || user.getMe_pw()==null)
 			return null;
-		
+		MembersVO dbuser = membersDao.selectUserId(user.getMe_id());
+		if(dbuser==null)
+			return null;
+		if(user.getMe_pw().equals(dbuser.getMe_pw()))
+			return dbuser;
 		return null;
+	}
+
+	@Override
+	public MembersVO selectMembersByMeId(String pl_me_id) {
+		return membersDao.selectMembersByMeId(pl_me_id);
 	}
 	
 	

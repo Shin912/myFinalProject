@@ -39,7 +39,7 @@
 				<table class="table table-bordered">
 					<thead class="thead-dark">
 						<tr>
-<!-- 							<th class="board_num">번호</th> -->
+ 							<th class="board_num"></th>
 							<th class="team_num">팀번호</th>
 							<th class="box-team_img">팀 이미지</th>
 							<th class="team_name">희망 팀 이름</th>
@@ -53,15 +53,21 @@
 					<tbody>
 						<c:forEach items="${TAList}" var="tal">
 							<tr>
-								<!-- <th class="board_num">임시tal.ta_bo_num</th> -->
+								<td class="board_num"></td>
 								<td class="team_num">${tal.team.tm_num}</td>
-								<td class="box-team_img"><img class="item-team_img" src="<c:url value='/files${tal.team.tm_team_img }'></c:url>"></td>
-								<td class="team_name"><a href="<c:url value='/team/adteam_createBoard?teamNum= ${tal.ta_tm_num }'></c:url>"> ${tal.team.tm_name }</a></td>
+								<td class="box-team_img">
+								<c:choose>
+									<c:when test="${empty tal.team.tm_team_img }">X</c:when>
+									<c:otherwise><img class="item-team_img" src="<c:url value='/files${tal.team.tm_team_img }'></c:url>">							
+									</c:otherwise>
+								</c:choose>
+								</td>
+								<td class="team_name"><a href="<c:url value='/team/adteam_createBoard?teamNum= ${tal.ta_tm_num }'></c:url>"> ${tal.team.tm_name }</a></td>	
 								<td class="teamLeader"> <a href="#"> ${tal.team.tm_me_id }</a></td>
 								<td class="location_big">${tal.team.tm_re_num }</td>
 								<td class="create_date"><fmt:formatDate type="both" pattern = "yyyy-MM-dd HH:mm" value="${tal.ta_register_date}"></fmt:formatDate></td>
 								<th class="state">${tal.ta_state }</th>
-								<td class="buttonCol">비고</td>
+								<td class="buttonCol"></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -70,11 +76,18 @@
 			</div>
 			<div class="container-pagenation">
 				<ul class="pagination justify-content-center">
-					<li class="page-item prev"><a href="#" class="page-link">이전</a></li>
-					<li class="page-item active"><a href="#" class="page-link">1</a></li>
-					<li class="page-item"><a href="#" class="page-link">2</a></li>
-					<li class="page-item"><a href="#" class="page-link">3</a></li>
-					<li class="page-item next"><a href="#" class="page-link">다음</a></li>
+					<c:if test="${pm.prev}">
+						<li class="page-item prev"><a href="<c:url value='/team/adteam_create?page=${pm.startPage - 1}&search=${pm.cri.search}&type=${pm.cri.type }'></c:url>" class="page-link">이전</a></li>
+					</c:if>
+					<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="index">
+						<li class="page-item
+							<c:if test='${index == pm.cri.page  }'> active </c:if> ">
+							<a href="<c:url value='/team/adteam_create?page=${index}'></c:url>" class="page-link">${index}</a>
+						</li>
+					</c:forEach>
+					<c:if test="${pm.next}">
+						<li class="page-item next"><a href="<c:url value='/team/adteam_create?page=${pm.startPage + 1}&search=${pm.cri.search}&type=${pm.cri.type }'></c:url>" class="page-link">다음</a></li>
+					</c:if>
 				</ul>
 			</div>
 				<div class="btnBox-board">
