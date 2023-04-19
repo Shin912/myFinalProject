@@ -9,6 +9,5 @@ import com.hereo.project.pagination.Criteria;
 
 public interface LeagueService {
 
-	
 
 }
