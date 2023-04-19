@@ -9,5 +9,7 @@ import com.hereo.project.pagination.Criteria;
 
 public interface LeagueService {
 
+	ArrayList<PlayerrecordHitterVO> getSelectAllHitRecord();
+
 
 }

@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hereo.project.dao.LeagueDao;
+import com.hereo.project.dao.LeagueDAO;
 import com.hereo.project.vo.PlayerrecordHitterVO;
 
 
 @Service
 public class LeagueServiceImp implements LeagueService {
 	@Autowired
-	LeagueDao leagueDao;
+	LeagueDAO leagueDao;
 
-
-
-	
+	@Override
+	public ArrayList<PlayerrecordHitterVO> getSelectAllHitRecord() {
+		return leagueDao.selectAllHitRecord();
+	}
 	
 
 }

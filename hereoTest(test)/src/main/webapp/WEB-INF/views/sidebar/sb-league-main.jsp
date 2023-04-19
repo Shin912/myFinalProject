@@ -62,12 +62,12 @@
 			<div class="list-sub-menu off">
 				<ul class="sublist-side">
 					<li class="subitem-side">
-						<a class="sublink-side" href="<c:url value='/league/recodeHit'></c:url>">
+						<a class="sublink-side" href="<c:url value='/league/recordHit'></c:url>">
 							<span class="menu-title">선수기록</span>
 						</a>
 					</li>
 					<li class="subitem-side">
-						<a class="sublink-side" href="<c:url value='/league/recodeTeam'></c:url>">
+						<a class="sublink-side" href="<c:url value='/league/recordTeam'></c:url>">
 							<span class="menu-title">팀순위</span>
 						</a>
 					</li>

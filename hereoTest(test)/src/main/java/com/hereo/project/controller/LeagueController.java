@@ -1,6 +1,8 @@
 package com.hereo.project.controller;
 
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.hereo.project.service.LeagueService;
+import com.hereo.project.vo.PlayerrecordHitterVO;
 
 
 
@@ -31,7 +34,9 @@ public class LeagueController {
 	}
 	@RequestMapping(value = "/league/recordHit", method = RequestMethod.GET)
 	public ModelAndView leagueRecodeHit(ModelAndView mv) {
+		ArrayList<PlayerrecordHitterVO> hList = leagueService.getSelectAllHitRecord();
 		
+		mv.addObject("hList", hList);
 		mv.setViewName("/league/league-record-hit");
 		return mv;
 	}
