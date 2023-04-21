@@ -11,7 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.hereo.project.service.LeagueService;
+import com.hereo.project.service.RecordService;
+import com.hereo.project.vo.MembersVO;
 import com.hereo.project.vo.PlayerrecordHitterVO;
+import com.hereo.project.vo.TeamPlayerVO;
+import com.hereo.project.vo.TeamVO;
 
 
 
@@ -20,6 +24,8 @@ public class LeagueController {
 
 	@Autowired
 	LeagueService leagueService;
+	@Autowired
+	RecordService recordService;
 	
 	@RequestMapping(value = "/league/leagueSearch", method = RequestMethod.GET)
 	public ModelAndView leagueSearch(ModelAndView mv) {
@@ -33,20 +39,19 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/recordHit", method = RequestMethod.GET)
-	public ModelAndView leagueRecodeHit(ModelAndView mv) {
-		ArrayList<PlayerrecordHitterVO> hList = leagueService.getSelectAllHitRecord();
-		
+	public ModelAndView leagueRecordHit(ModelAndView mv) {
+		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord();
 		mv.addObject("hList", hList);
 		mv.setViewName("/league/league-record-hit");
 		return mv;
 	}
 	@RequestMapping(value = "/league/recordPit", method = RequestMethod.GET)
-	public ModelAndView leagueRecodePit(ModelAndView mv) {
+	public ModelAndView leagueRecordPit(ModelAndView mv) {
 		mv.setViewName("/league/league-record-pit");
 		return mv;
 	}
 	@RequestMapping(value = "/league/recordTeam", method = RequestMethod.GET)
-	public ModelAndView leagueRecodeTeam(ModelAndView mv) {
+	public ModelAndView leagueRecordTeam(ModelAndView mv) {
 		mv.setViewName("/league/league-record-team");
 		return mv;
 	}

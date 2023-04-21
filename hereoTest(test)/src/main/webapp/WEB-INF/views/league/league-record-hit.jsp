@@ -125,29 +125,30 @@
 					</tr>
 				</thead>
 				<tbody>
+					<c:forEach items="${hList }" var="pl">	
 					<tr>
 						<td>1</td>
-						<td>이정후(22)</td>
-						<td>두산공작기계야구단</td>
+						<td>${pl.ph_tp_num}</td>
+						<td>몬스터즈</td>
 						<td>0.364</td>
-						<td>10</td>
-						<td>25</td>
-						<td>22</td>
-						<td>8</td>
 						<td>1</td>
-						<td>0</td>
-						<td>2</td>
-						<td>7</td>
-						<td>0</td>
-						<td>1</td>
-						<td>0</td>
-						<td>3</td>
-						<td>0</td>
-						<td>1</td>
+						<td>${pl.ph_bats}</td>
+						<td>${pl.ph_hits }</td>
+						<td>${pl.ph_single_hits }</td>
+						<td>${pl.ph_twobase_hits }</td>
+						<td>${pl.ph_threebase_hits}</td>
+						<td>${pl.ph_homeruns }</td>
 						<td>0</td>
 						<td>0</td>
+						<td>${pl.ph_steals }</td>
+						<td>${pl.ph_fail_steals }</td>
+						<td>${pl.ph_fourballs }</td>
+						<td>${pl.ph_hitbypitches }</td>
+						<td>${pl.ph_strike_outs }</td>
+						<td>${pl.ph_doubleplays }</td>
+						<td>${pl.ph_errors }</td>
 					</tr>
-
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
