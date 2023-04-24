@@ -16,13 +16,16 @@
 			<div class="main-top-game">
 				<div class="section league">
 					<div class="select-box">
-						<select name="league-name">
-							<option value="name">평일리그</option>
-							<option value="">주말리그</option>
-						</select>
-						<select name="league-type">
-							<option value="1">평일야간3부</option>
-						</select>
+						<c:forEach items="leagueAtt" var="la">
+							<select name="league-name">
+								<option value="la_name">${la.la_name }</option>
+							</select>
+						</c:forEach>
+						<c:forEach items="leagueAtt" var="la">
+							<select name="league-type">
+								<option value="la_match_type">${la.la_match_type }</option>
+							</select>
+						</c:forEach>
 						<button type="button" class="btn btn-secondary btn-sm mb-1">조회</button>
 					</div>
 					<div class="attend-team">

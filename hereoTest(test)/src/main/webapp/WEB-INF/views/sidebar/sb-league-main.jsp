@@ -58,7 +58,7 @@
 			</div>
 		</li>
 		<li class="item-side">
-			<a href="<c:url value='/league/recodeHit'></c:url>" class="link-main-menu">기록실</a>
+			<a href="<c:url value='/league/recordHit'></c:url>" class="link-main-menu">기록실</a>
 			<div class="list-sub-menu off">
 				<ul class="sublist-side">
 					<li class="subitem-side">
