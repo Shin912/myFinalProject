@@ -61,7 +61,7 @@
 												<span class="emblem">
 													<img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>" style="width: 30px;height: 30px;">
 												</span>
-												<span class="team">${teamA.tm_name }</span>
+												<span class="team">${ls.ls_lp_num_a }</span>
 											</a>
 										</dd>
 										<dd class="versus">vs</dd>
