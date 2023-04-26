@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 import com.hereo.project.dao.LeagueDAO;
 import com.hereo.project.pagination.Criteria;
 import com.hereo.project.vo.LeagueAttributeVO;
+import com.hereo.project.vo.LeagueParticipationteamVO;
+import com.hereo.project.vo.LeagueScheduleVO;
 import com.hereo.project.vo.LeagueVO;
-import com.hereo.project.vo.MembersVO;
-import com.hereo.project.vo.PlayerVO;
-import com.hereo.project.vo.PlayerrecordHitterVO;
-import com.hereo.project.vo.TeamPlayerVO;
 import com.hereo.project.vo.TeamVO;
 
 
@@ -39,6 +37,17 @@ public class LeagueServiceImp implements LeagueService {
 	@Override
 	public ArrayList<LeagueAttributeVO> selectLeagueAttByLgNum(int lg_num) {
 		return leagueDao.selectLeagueAttByLgNum(lg_num);
+	}
+
+	@Override
+	public ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num) {
+		return leagueDao.selectLeagueSchedule(lg_num);
+	}
+
+	@Override
+	public TeamVO getSelectApprovalTmNameA(int lg_num) {
+		
+		return leagueDao.selectApprovalTmNameA(lg_num);
 	}
 
 

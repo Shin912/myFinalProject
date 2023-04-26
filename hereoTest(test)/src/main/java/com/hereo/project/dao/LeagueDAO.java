@@ -6,11 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hereo.project.pagination.Criteria;
 import com.hereo.project.vo.LeagueAttributeVO;
+import com.hereo.project.vo.LeagueParticipationteamVO;
+import com.hereo.project.vo.LeagueScheduleVO;
 import com.hereo.project.vo.LeagueVO;
-import com.hereo.project.vo.MembersVO;
-import com.hereo.project.vo.PlayerVO;
-import com.hereo.project.vo.PlayerrecordHitterVO;
-import com.hereo.project.vo.TeamPlayerVO;
 import com.hereo.project.vo.TeamVO;
 
 public interface LeagueDAO {
@@ -23,5 +21,9 @@ public interface LeagueDAO {
 
 	ArrayList<LeagueAttributeVO> selectLeagueAttByLgNum(@Param("la_lg_num")int lg_num);
 
+	ArrayList<LeagueScheduleVO> selectLeagueSchedule(@Param("ls_la_num")int lg_num);
+
+	TeamVO selectApprovalTmNameA(@Param("ls_num")int ls_num);
+	
 
 }

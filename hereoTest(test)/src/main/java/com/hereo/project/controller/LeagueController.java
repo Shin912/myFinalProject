@@ -19,6 +19,8 @@ import com.hereo.project.service.LeagueService;
 import com.hereo.project.service.MembersService;
 import com.hereo.project.service.RecordService;
 import com.hereo.project.vo.LeagueAttributeVO;
+import com.hereo.project.vo.LeagueParticipationteamVO;
+import com.hereo.project.vo.LeagueScheduleVO;
 import com.hereo.project.vo.LeagueVO;
 import com.hereo.project.vo.MembersVO;
 import com.hereo.project.vo.PlayerrecordHitterVO;
@@ -52,7 +54,7 @@ public class LeagueController {
 		ArrayList<LeagueVO> leagueList = leagueService.selectLeaguesByCriAndState( "활동중", pm.getCri());
 		
 		RegionVO[] regionArr = regionDao.selectAllRegion();
-			
+		
 		mv.addObject("league", leagueList);
 		mv.addObject("region", regionArr);
 		mv.addObject("pm", pm);
@@ -64,7 +66,11 @@ public class LeagueController {
 	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
 		ArrayList<LeagueVO> league = leagueService.selectLeagueByLgNum(lg_num);
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
-		
+		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
+		TeamVO teamA = leagueService.getSelectApprovalTmNameA(lg_num);
+
+		mv.addObject("teamA", teamA);
+		mv.addObject("leagueSche", leagueSche);
 		mv.addObject("leagueAtt",leagueAtt);
 		mv.addObject("league", league);
 		mv.setViewName("/league/league-main");

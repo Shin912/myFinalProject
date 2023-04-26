@@ -3,6 +3,8 @@ package com.hereo.project.service;
 import java.util.ArrayList;
 
 import com.hereo.project.vo.LeagueAttributeVO;
+import com.hereo.project.vo.LeagueParticipationteamVO;
+import com.hereo.project.vo.LeagueScheduleVO;
 import com.hereo.project.vo.LeagueVO;
 import com.hereo.project.vo.MembersVO;
 import com.hereo.project.vo.PlayerrecordHitterVO;
@@ -20,5 +22,14 @@ public interface LeagueService {
 	ArrayList<LeagueVO> selectLeagueByLgNum(int lg_num);
 
 	ArrayList<LeagueAttributeVO> selectLeagueAttByLgNum(int lg_num);
+
+	ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num);
+
+	TeamVO getSelectApprovalTmNameA(int lg_num);
+
+
+
+
+
 
 }

@@ -30,4 +30,14 @@
 		select * from `league_attribute`
 			where la_lg_num = #{la_lg_num}
 	</select>
+	<select id="selectLeagueSchedule" resultType="com.hereo.project.vo.LeagueScheduleVO">
+		select * from `league-schedule`
+			where ls_la_num	= #{ls_la_num}
+	</select>
+	<select id="selectApprovalTmNameA" resultType="com.hereo.project.vo.TeamVO">
+		SELECT * FROM team
+			join `league-participationteam` on tm_num = lp_tm_num
+		    join `league-schedule` on lp_num = ls_lp_num_a
+		    where ls_num = #{ls_num}
+	</select>
 </mapper>
