@@ -16,6 +16,15 @@
 		<collection property="ls_team_a" ofType="com.hereo.project.vo.TeamVO" column="ls_lp_num_a" select="selectTeam"></collection>
 		<collection property="ls_team_b" ofType="com.hereo.project.vo.TeamVO" column="ls_lp_num_b" select="selectTeam"></collection>
 	</resultMap>
+	<resultMap type="com.hereo.project.vo.LeagueParticipationteamVO" id="leagueParticipationteam">
+		<id property="" column=""></id>
+		<result property="lp_num" column="lp_num" />
+		<result property="lp_tm_num" column="lp_tm_num" />
+		<result property="lp_le_num" column="lp_le_num" />
+		<result property="lp_approval" column="lp_approval" />
+		<collection property="lp_team_img" ofType="com.hereo.project.vo.TeamVO" column="lp_tm_num" select="selectTeamName"></collection>
+		<collection property="lp_team_name" ofType="com.hereo.project.vo.TeamVO" column="lp_tm_num" select="selectTeamName"></collection>
+	</resultMap>
 	<select id="countAllleague" resultType="int">
 		select count(lg_num)
 			from league
@@ -52,5 +61,13 @@
 			join `league-participationteam` on tm_num = lp_tm_num
 			where lp_num = #{ls_lp_num}
 	</select>
-	
+	<select id="selectLeagueParti" resultMap="leagueParticipationteam">
+		select * from `league-participationteam`
+			where lp_le_num = #{ls_la_num}
+	</select>
+		<select id="selectTeamName" resultType="com.hereo.project.vo.TeamVO">
+		select * from team
+			join `league-participationteam` on tm_num = lp_tm_num
+			where lp_tm_num = #{ls_lp_num}
+	</select>
 </mapper>

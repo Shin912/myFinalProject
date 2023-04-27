@@ -23,12 +23,10 @@ public class LeagueServiceImp implements LeagueService {
 	public int countLeague(String state, Criteria cri) {
 		return leagueDao.countAllleague(state,cri);
 	}
-
 	@Override
 	public ArrayList<LeagueVO> selectLeaguesByCriAndState(String state, Criteria cri) {
 		return leagueDao.selectLeaguesByCriAndState(state, cri);
 	}
-
 	@Override
 	public ArrayList<LeagueVO> selectLeagueByLgNum(int lg_num) {
 		return leagueDao.selectLeagueByLgNum(lg_num);
@@ -37,10 +35,13 @@ public class LeagueServiceImp implements LeagueService {
 	public ArrayList<LeagueAttributeVO> selectLeagueAttByLgNum(int lg_num) {
 		return leagueDao.selectLeagueAttByLgNum(lg_num);
 	}
-
 	@Override
 	public ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num) {
 		return leagueDao.selectLeagueSchedule(lg_num);
+	}
+	@Override
+	public ArrayList<LeagueParticipationteamVO> getSelectLeagueParti(int lg_num) {
+		return leagueDao.selectLeagueParti(lg_num);
 	}
 
 }

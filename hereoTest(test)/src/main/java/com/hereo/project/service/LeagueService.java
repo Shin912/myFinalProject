@@ -25,5 +25,7 @@ public interface LeagueService {
 
 	ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num);
 
+	ArrayList<LeagueParticipationteamVO> getSelectLeagueParti(int lg_num);
+
 
 }

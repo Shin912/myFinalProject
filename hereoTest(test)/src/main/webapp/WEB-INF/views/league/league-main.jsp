@@ -29,14 +29,27 @@
 						<button type="button" class="btn btn-secondary btn-sm mb-1">조회</button>
 					</div>
 					<div class="attend-team">
-						<h2>9개팀</h2>
+						<c:set var = "count" value = "0" />
+						<c:forEach items="${leagueParti }" var="lp" varStatus="status">
+							<c:if test="${lp.lp_approval == 2 }">
+								<c:set var="count" value="${count + 1 }"></c:set>
+							</c:if>
+						</c:forEach>
+								<h2><c:out value="${count}팀"/></h2>
+								
+						
 						<ul>
-							<li>
-								<a href="">
-									<span><img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>"></span>
-								</a>
-							</li>
+							<c:forEach items="${leagueParti }" var="lp">
+								<c:if test="${lp.lp_approval == 2 }">
+									<li>
+										<a href="">
+											<span><img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>"></span>
+										</a>
+									</li>
+								</c:if>
+							</c:forEach>
 						</ul>
+						
 						<button type="button" class="btn" >리그신청하기</button>
 					</div>
 				</div>
@@ -131,30 +144,23 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th>1</th>
-									<td>
-										<a href="">
-											<span class="team">kt위즈</span>
-										</a>
-									</td>
-									<td>2</td>
-									<td>
-										<span class="red">1.000</span>
-									</td>
-								</tr>
-								<tr>
-									<th>1</th>
-									<td>
-										<a href="">
-											<span class="team">kt위즈</span>
-										</a>
-									</td>
-									<td>2</td>
-									<td>
-										<span class="red">0.500</span>
-									</td>
-								</tr>
+								<c:forEach items="${leagueParti }" var="lp">
+									<c:if test="${lp.lp_approval == 2 }">
+										<tr>
+											<th>1</th>
+											<td>
+												<a href="">
+													<span class="team">${lp.lp_team_name.tm_name }</span>
+												</a>
+											</td>
+											<td class="gameCount"></td>
+											<td>
+												<span class="red">1.000</span>
+											</td>
+										</tr>
+									
+									</c:if>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -176,5 +182,18 @@ $('.tab-right').click(function(){
 	$('.article.schedule').hide();
 	$('.article.result').show();
 });
+
+// 경기상태가 경기후 인 값들을 저장하는 배열
+let gameSet = [];
+
+// 경기상태가 경기후 인 경기들을 저장하는 작업
+<c:forEach items="${leagueSche}" var="ls">
+	<c:if test="${ls.ls_match_state == '경기후' }">
+		gameSet.push()
+	</c:if>
+</c:forEach>
+
+$('.gameCount').text(gameSet);
+
 </script>
 

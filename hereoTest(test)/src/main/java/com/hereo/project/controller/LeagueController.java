@@ -67,7 +67,10 @@ public class LeagueController {
 		ArrayList<LeagueVO> league = leagueService.selectLeagueByLgNum(lg_num);
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
 		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
+		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(lg_num);
 
+		
+		mv.addObject("leagueParti", leagueParti);
 		mv.addObject("leagueSche", leagueSche);
 		mv.addObject("leagueAtt",leagueAtt);
 		mv.addObject("league", league);
@@ -76,6 +79,7 @@ public class LeagueController {
 	}
 	@RequestMapping(value = "/league/recordHit", method = RequestMethod.GET)
 	public ModelAndView leagueRecordHit(ModelAndView mv) {
+		
 		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord();
 
 		mv.addObject("hList", hList);

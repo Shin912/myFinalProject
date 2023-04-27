@@ -22,4 +22,7 @@ public class PlayerrecordHitterVO {
 	private int ph_bats;
 	private int ph_doubleplays;
 	private int ph_hitbypitches;
+	private TeamVO ph_tm_name;
+	private MembersVO ph_me_name;
+	private TeamPlayerVO ph_tp_backnum;
 }
