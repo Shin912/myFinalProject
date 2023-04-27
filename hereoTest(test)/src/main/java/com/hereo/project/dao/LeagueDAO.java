@@ -23,7 +23,4 @@ public interface LeagueDAO {
 
 	ArrayList<LeagueScheduleVO> selectLeagueSchedule(@Param("ls_la_num")int lg_num);
 
-	TeamVO selectApprovalTmNameA(@Param("ls_num")int ls_num);
-	
-
 }

@@ -17,9 +17,11 @@ public class LeagueScheduleVO {
 	private int ls_lp_num_a;
 	private int ls_lp_num_b;
 	private int ls_la_num;
+	private TeamVO ls_team_a;
+	private TeamVO ls_team_b;
 	
 	public String getLs_match_date_str() {
-		SimpleDateFormat format = new SimpleDateFormat("MM월dd일 hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat("MM월dd일(E) HH:mm");
 		if(ls_match_date == null) {
 			return "";
 		}

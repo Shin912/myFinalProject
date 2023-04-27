@@ -33,7 +33,7 @@
 	        <li class="item-league">
 	          <div class="left-box">
 	            <a href="<c:url value='/league/main${lg.lg_num}'></c:url>" class="link-league">
-	              <img src='<c:url value='/resources/img/league/kbo로고.pnq'></c:url>' class="item-league-logo"></img>
+	              <img src='<c:url value='/resources/img/league/kbo로고.png'></c:url>' class="item-league-logo"></img>
 	            </a>
 	          </div>
 	          <div class="right-box">

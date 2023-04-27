@@ -53,6 +53,39 @@
 						<div class="list-scroll">
 							<ul class="list-game">
 								<c:forEach items="${leagueSche}" var="ls">
+								<c:if test="${ls.ls_match_state == '경기전' }">
+									<li>
+										<dl>
+											<dt>${ls.ls_match_date_str}</dt>
+											<dd>
+												<a href="">
+													<span class="emblem">
+														<img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>" style="width: 30px;height: 30px;">
+													</span>
+													<span class="team">${ls.ls_team_a.tm_name }</span>
+												</a>
+											</dd>
+											<dd class="versus">vs</dd>
+											<dd>
+												<a href="">
+													<span class="emblem">
+														<img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>" style="width: 30px;height: 30px;">
+													</span>
+													<span class="team">${ls.ls_team_b.tm_name }</span>
+												</a>
+											</dd>
+										</dl>
+									</li>
+								</c:if>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+					<div class="article result">
+						<div class="list-scroll">
+							<ul class="list-game">
+							<c:forEach items="${leagueSche}" var="ls">
+							<c:if test="${ls.ls_match_state == '경기후' }">
 								<li>
 									<dl>
 										<dt>${ls.ls_match_date_str}</dt>
@@ -61,7 +94,8 @@
 												<span class="emblem">
 													<img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>" style="width: 30px;height: 30px;">
 												</span>
-												<span class="team">${ls.ls_lp_num_a }</span>
+												<span class="team">${ls.ls_team_a.tm_name }</span>
+												<span class="score">${ls.ls_point_a }</span>
 											</a>
 										</dd>
 										<dd class="versus">vs</dd>
@@ -70,16 +104,17 @@
 												<span class="emblem">
 													<img src="<c:url value='/resources/img/league/kt로고.jpg'></c:url>" style="width: 30px;height: 30px;">
 												</span>
-												<span class="team">${ls.ls_lp_num_b }</span>
+												<span class="team">${ls.ls_team_b.tm_name }</span>
+												<span class="score">${ls.ls_point_b}</span>
 											</a>
 										</dd>
 									</dl>
 								</li>
-								</c:forEach>
+							</c:if>
+							</c:forEach>
 							</ul>
-
+						</div>
 					</div>
-				</div>
 			</div>
 				<div class="section team">
 					<div class="ranking-title">
@@ -127,7 +162,7 @@
 			
 		</div>
 	</div>
-	
+	</div>
 <script>
 $('.tab-left').click(function(){
 	$('.tab-right').removeClass('selected');

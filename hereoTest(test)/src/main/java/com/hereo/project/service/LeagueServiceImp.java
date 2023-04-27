@@ -29,7 +29,6 @@ public class LeagueServiceImp implements LeagueService {
 		return leagueDao.selectLeaguesByCriAndState(state, cri);
 	}
 
-
 	@Override
 	public ArrayList<LeagueVO> selectLeagueByLgNum(int lg_num) {
 		return leagueDao.selectLeagueByLgNum(lg_num);
@@ -43,13 +42,5 @@ public class LeagueServiceImp implements LeagueService {
 	public ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num) {
 		return leagueDao.selectLeagueSchedule(lg_num);
 	}
-
-	@Override
-	public TeamVO getSelectApprovalTmNameA(int lg_num) {
-		
-		return leagueDao.selectApprovalTmNameA(lg_num);
-	}
-
-
 
 }

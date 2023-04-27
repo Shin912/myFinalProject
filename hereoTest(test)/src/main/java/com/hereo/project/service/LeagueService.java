@@ -25,11 +25,5 @@ public interface LeagueService {
 
 	ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num);
 
-	TeamVO getSelectApprovalTmNameA(int lg_num);
-
-
-
-
-
 
 }
