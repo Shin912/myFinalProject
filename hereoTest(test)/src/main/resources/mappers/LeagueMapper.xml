@@ -25,6 +25,7 @@
 		<collection property="lp_team_img" ofType="com.hereo.project.vo.TeamVO" column="lp_tm_num" select="selectTeamName"></collection>
 		<collection property="lp_team_name" ofType="com.hereo.project.vo.TeamVO" column="lp_tm_num" select="selectTeamName"></collection>
 	</resultMap>
+
 	<select id="countAllleague" resultType="int">
 		select count(lg_num)
 			from league

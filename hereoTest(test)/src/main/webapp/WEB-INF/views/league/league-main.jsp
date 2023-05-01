@@ -145,21 +145,18 @@
 							</thead>
 							<tbody>
 								<c:forEach items="${leagueParti }" var="lp">
-									<c:if test="${lp.lp_approval == 2 }">
 										<tr>
-											<th>1</th>
+											<th>등수</th>
 											<td>
 												<a href="">
-													<span class="team">${lp.lp_team_name.tm_name }</span>
+													<span class="team">팀이름</span>
 												</a>
 											</td>
-											<td class="gameCount"></td>
+											<td class="gameCount">경기수</td>
 											<td>
-												<span class="red">1.000</span>
+												<span class="red">승률</span>
 											</td>
 										</tr>
-									
-									</c:if>
 								</c:forEach>
 							</tbody>
 						</table>
@@ -168,6 +165,7 @@
 			
 		</div>
 	</div>
+	
 	</div>
 <script>
 $('.tab-left').click(function(){
@@ -183,17 +181,15 @@ $('.tab-right').click(function(){
 	$('.article.result').show();
 });
 
-// 경기상태가 경기후 인 값들을 저장하는 배열
-let gameSet = [];
 
-// 경기상태가 경기후 인 경기들을 저장하는 작업
-<c:forEach items="${leagueSche}" var="ls">
-	<c:if test="${ls.ls_match_state == '경기후' }">
-		gameSet.push()
-	</c:if>
-</c:forEach>
+//팀랭킹 - ajax 이용
 
-$('.gameCount').text(gameSet);
+//팀 경기수 
+
+//팀 경기승률 계산
+
+//경기승률 랭킹
+
 
 </script>
 

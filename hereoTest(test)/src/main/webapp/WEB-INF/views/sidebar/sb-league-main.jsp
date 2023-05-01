@@ -40,7 +40,7 @@
 			<div id="demo2" class="collapse">
 				<ul class="sublist-side">
 					<li class="subitem-side">
-						<a class="sublink-side btn btn-outline-danger col-sm-8" href="<c:url value='/league/schedule'></c:url>">
+						<a class="sublink-side btn btn-outline-danger col-sm-8" href="<c:url value='/league/schedule?leagueNum=${lg.lg_num }'></c:url>">
 							<span class="menu-title">리그일정/결과</span>
 						</a>
 					</li>

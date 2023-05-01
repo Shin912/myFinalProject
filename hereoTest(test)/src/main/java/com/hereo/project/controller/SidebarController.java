@@ -14,4 +14,9 @@ public class SidebarController {
 		mv.setViewName("/sidebar/sb-team_main");
 		return mv;
 	}
+	@RequestMapping(value = "/sidebar/sbleague", method = RequestMethod.GET)
+	public ModelAndView league(ModelAndView mv) {
+		mv.setViewName("/sidebar/sb-league-main");
+		return mv;
+	}
 }

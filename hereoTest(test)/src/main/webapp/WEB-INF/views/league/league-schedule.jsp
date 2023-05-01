@@ -22,21 +22,17 @@
 				</div>
 				<div class="form-group">
 					<label for="league-name"></label>
-					<select class="form-control" id="league-name">
-						<option>kh중앙리그</option>
-						<option>kh숏리그</option>
-						<option>kh평일리그</option>
-						<option>kh주말리그</option>
+					<select name="league-name">
+						<c:forEach items="${leagueAtt}" var="la">	
+							<option value="${la.la_name }">${la.la_name }</option>
+						</c:forEach>
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="league-type"></label>
-					<select class="form-control" id="league-type">
-						<option>중앙3부리그</option>
-						<option>숏4부리그</option>
-						<option>평일3부리그</option>
-						<option>주말4부리그</option>
-					</select>
+						<c:forEach items="${leagueAtt}" var="la">
+							<option value="${la.la_match_type }">${la.la_match_type }</option>
+						</c:forEach>
 				</div>
 				<div class="form-group">	
 					<label for="league-team"></label>

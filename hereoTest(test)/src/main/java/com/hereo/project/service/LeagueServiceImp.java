@@ -44,4 +44,5 @@ public class LeagueServiceImp implements LeagueService {
 		return leagueDao.selectLeagueParti(lg_num);
 	}
 
+
 }

@@ -25,4 +25,6 @@ public interface LeagueDAO {
 
 	ArrayList<LeagueParticipationteamVO> selectLeagueParti(@Param("ls_la_num")int lg_num);
 
+	ArrayList<LeagueScheduleVO> selectLeagueTmRank(@Param("ls_la_num")Integer ls_num);
+
 }

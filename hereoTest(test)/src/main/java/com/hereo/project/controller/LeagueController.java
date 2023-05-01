@@ -63,13 +63,13 @@ public class LeagueController {
 	}
 	
 	@RequestMapping(value = "/league/main{lg_num}", method = RequestMethod.GET)
-	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
+	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num,
+			Integer ls_num) {
 		ArrayList<LeagueVO> league = leagueService.selectLeagueByLgNum(lg_num);
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
 		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
 		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(lg_num);
 
-		
 		mv.addObject("leagueParti", leagueParti);
 		mv.addObject("leagueSche", leagueSche);
 		mv.addObject("leagueAtt",leagueAtt);
@@ -97,7 +97,7 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/schedule", method = RequestMethod.GET)
-	public ModelAndView leagueSchedule(ModelAndView mv) {
+	public ModelAndView leagueSchedule(ModelAndView mv, Integer leagueNum) {
 		
 		mv.setViewName("/league/league-schedule");
 		return mv;
