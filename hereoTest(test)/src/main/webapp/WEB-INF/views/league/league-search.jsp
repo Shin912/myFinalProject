@@ -43,6 +43,10 @@
 	        </li>
 	      </c:forEach>
       </ul>
+      <div class="btn btn-insert-league btn-success" >
+      	<a href="<c:url value='/league/leagueInsert'></c:url>">리그생성신청하기</a>
+      </div>
+      
       <div class="container-pagenation">
 			<ul class="pagination justify-content-center">
 				<c:if test="${pm.prev}">

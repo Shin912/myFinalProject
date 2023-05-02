@@ -1,8 +1,8 @@
 package com.hereo.project.controller;
 
-
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +63,7 @@ public class LeagueController {
 	}
 	
 	@RequestMapping(value = "/league/main{lg_num}", method = RequestMethod.GET)
-	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num,
-			Integer ls_num) {
+	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
 		ArrayList<LeagueVO> league = leagueService.selectLeagueByLgNum(lg_num);
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
 		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
@@ -78,10 +77,10 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/recordHit", method = RequestMethod.GET)
-	public ModelAndView leagueRecordHit(ModelAndView mv) {
+	public ModelAndView leagueRecordHit(ModelAndView mv, LeagueVO league) {
 		
 		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord();
-
+		
 		mv.addObject("hList", hList);
 		mv.setViewName("/league/league-record-hit");
 		return mv;
@@ -97,7 +96,7 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/schedule", method = RequestMethod.GET)
-	public ModelAndView leagueSchedule(ModelAndView mv, Integer leagueNum) {
+	public ModelAndView leagueSchedule(ModelAndView mv, LeagueVO lgNum) {
 		
 		mv.setViewName("/league/league-schedule");
 		return mv;
@@ -115,6 +114,23 @@ public class LeagueController {
 	@RequestMapping(value = "/league/schedulemanagerment", method = RequestMethod.GET)
 	public ModelAndView leagueScheduleManagerment(ModelAndView mv) {
 		mv.setViewName("/league/league-schedule-managerment");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/league/leagueInsert", method = RequestMethod.GET)
+	public ModelAndView leagueInsert(ModelAndView mv, HttpServletRequest request) {
+		MembersVO user = (MembersVO)request.getSession().getAttribute("user");
+
+		mv.setViewName("/league/league-insert");			
+	
+		return mv;
+	}
+	
+	@RequestMapping(value = "/league/leagueInsert", method = RequestMethod.POST)
+	public ModelAndView leagueInsertPOST(ModelAndView mv, LeagueVO league ,HttpSession session) {
+		MembersVO user = (MembersVO)session.getAttribute("user");
+		leagueService.insertLeague(user, league);
+		mv.setViewName("redirect:/league/league-search");
 		return mv;
 	}
 	

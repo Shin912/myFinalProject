@@ -11,6 +11,7 @@ import com.hereo.project.vo.LeagueAttributeVO;
 import com.hereo.project.vo.LeagueParticipationteamVO;
 import com.hereo.project.vo.LeagueScheduleVO;
 import com.hereo.project.vo.LeagueVO;
+import com.hereo.project.vo.MembersVO;
 import com.hereo.project.vo.TeamVO;
 
 
@@ -43,6 +44,23 @@ public class LeagueServiceImp implements LeagueService {
 	public ArrayList<LeagueParticipationteamVO> getSelectLeagueParti(int lg_num) {
 		return leagueDao.selectLeagueParti(lg_num);
 	}
-
+	@Override
+	public Boolean insertLeague(MembersVO user, LeagueVO league) {
+		//리그 등록 서비스
+		if(user == null) //로그인체크
+			return false;
+		if(!checkLeague(league)) // 필요한 리그정보 없을시 실패
+			return false;
+		league.setLg_me_id(user.getMe_id());
+		
+		leagueDao.insertLeague(league);
+		return true;
+	}
+	private boolean checkLeague(LeagueVO league) {
+		//리그정보체크
+		if(league == null || league.getLg_name() == null)
+			return false;
+		return true;
+	}
 
 }

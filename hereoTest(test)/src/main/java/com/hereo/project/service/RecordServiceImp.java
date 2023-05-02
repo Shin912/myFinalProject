@@ -21,8 +21,8 @@ public class RecordServiceImp implements RecordService {
 
 	@Override
 	public ArrayList<PlayerrecordHitterVO> getSelectAllHitRecord() {
-
+		
 		return recordDao.selectAllHitRecord();
 	}
-
+	
 }

@@ -45,6 +45,7 @@
 	</select>
 	<select id="selectAllHitRecord" resultMap="PlayerrecordHitter">
 		select * from `playerrecord-hitter`
+
 	</select>
 
 </mapper>

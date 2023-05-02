@@ -27,6 +27,8 @@ public interface LeagueService {
 
 	ArrayList<LeagueParticipationteamVO> getSelectLeagueParti(int lg_num);
 
+	Boolean insertLeague(MembersVO user, LeagueVO league);
+
 
 
 }
