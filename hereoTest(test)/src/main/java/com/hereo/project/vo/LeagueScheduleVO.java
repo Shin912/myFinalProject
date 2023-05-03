@@ -17,6 +17,7 @@ public class LeagueScheduleVO {
 	private int ls_lp_num_a;
 	private int ls_lp_num_b;
 	private int ls_la_num;
+	private LeagueAttributeVO ls_leagueAtt;
 	private TeamVO ls_team_a;
 	private TeamVO ls_team_b;
 	

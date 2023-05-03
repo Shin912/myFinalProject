@@ -101,8 +101,9 @@ public class LeagueController {
 		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(league.getLg_num());
 		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(league.getLg_num());
-		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(league.getLg_num());
 		
+		//leagueAtt null뜸
+		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(league.getLg_num());
 
 		mv.addObject("leagueSche", leagueSche);
 		mv.addObject("leagueParti", leagueParti);

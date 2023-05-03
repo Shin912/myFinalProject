@@ -42,6 +42,8 @@ public class LeagueServiceImp implements LeagueService {
 	}
 	@Override
 	public ArrayList<LeagueScheduleVO> selectLeagueSchedule(int lg_num) {
+		if(lg_num == 0)
+			return null;
 		return leagueDao.selectLeagueSchedule(lg_num);
 	}
 	@Override

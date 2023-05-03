@@ -42,6 +42,7 @@
 					<select class="form-control" id="league-team">
 						<c:forEach items="${leagueParti }" var="lp">
 							<c:if test="${lp.lp_approval == 2 }">
+								<option value="0">없음</option>
 								<option value="${lp.lp_team_name.tm_name }">${lp.lp_team_name.tm_name}</option>
 							</c:if>
 						</c:forEach>
@@ -71,7 +72,7 @@
 					<td>${ls.ls_match_date_str2 }</td>
 					<td>${ls.ls_match_date_str3 }</td>
 					<td>1</td>
-					<td>/</td>
+					<td>${ls.ls_leagueAtt.la_name }/${ls.ls_leagueAtt.la_match_type }</td>
 					<td>KH야구장</td>
 					<td>
 						<div class="team-wrap team-left">
@@ -86,7 +87,9 @@
 					</td>
 					<td>${ls.ls_match_state }</td>
 					<td>
-						<button type="button" class="btn btn-secondary">경기기록</button>
+						<c:if test="${ls.ls_match_state == '경기후' }">
+							<button type="button" class="btn btn-secondary">경기기록</button>
+						</c:if>
 					</td>
 				</tr>
 			</c:forEach>
