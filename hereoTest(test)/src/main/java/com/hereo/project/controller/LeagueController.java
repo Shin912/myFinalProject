@@ -42,7 +42,7 @@ public class LeagueController {
 	@Autowired
 	RegionDAO regionDao;
 	
-	@RequestMapping(value = "/league/leagueSearch", method = RequestMethod.GET)
+	@RequestMapping(value = "/league/leagueSearch", method = RequestMethod.GET) //메소드의 역할?
 	public ModelAndView leagueSearch(ModelAndView mv , Criteria cri) {
 		int totalCount = leagueService.countLeague("활동중", cri);
 		if(cri==null) {
@@ -60,11 +60,11 @@ public class LeagueController {
 		mv.addObject("pm", pm);
 		mv.setViewName("/league/league-search");
 		return mv;
-	}
+	}	
 	
 	@RequestMapping(value = "/league/main{lg_num}", method = RequestMethod.GET)
 	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
-		ArrayList<LeagueVO> league = leagueService.selectLeagueByLgNum(lg_num);
+		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
 		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
 		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(lg_num);
@@ -77,10 +77,11 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/recordHit", method = RequestMethod.GET)
-	public ModelAndView leagueRecordHit(ModelAndView mv, LeagueVO league) {
+	public ModelAndView leagueRecordHit(ModelAndView mv, Integer lg_num) {
+		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);	
+		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord(lg_num);
 		
-		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord();
-		
+
 		mv.addObject("hList", hList);
 		mv.setViewName("/league/league-record-hit");
 		return mv;
@@ -96,8 +97,16 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/schedule", method = RequestMethod.GET)
-	public ModelAndView leagueSchedule(ModelAndView mv, LeagueVO lgNum) {
+	public ModelAndView leagueSchedule(ModelAndView mv, Integer lg_num) {
+		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);
+		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(league.getLg_num());
+		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(league.getLg_num());
+		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(league.getLg_num());
 		
+
+		mv.addObject("leagueSche", leagueSche);
+		mv.addObject("leagueParti", leagueParti);
+		mv.addObject("leagueAtt", leagueAtt);
 		mv.setViewName("/league/league-schedule");
 		return mv;
 	}

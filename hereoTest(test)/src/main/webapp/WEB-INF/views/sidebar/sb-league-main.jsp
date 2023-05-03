@@ -17,6 +17,7 @@
 
 </style>
 <sidebar>
+
 	<ul class="list-side">
 		<li class="item-side leagueSideMenu">
 			<a href="#demo1" class="link-side btn btn-light col-md" data-toggle="collapse">리그소개</a>
@@ -40,7 +41,7 @@
 			<div id="demo2" class="collapse">
 				<ul class="sublist-side">
 					<li class="subitem-side">
-						<a class="sublink-side btn btn-outline-danger col-sm-8" href="<c:url value='/league/schedule?leagueNum=${lg.lg_num }'></c:url>">
+						<a class="sublink-side btn btn-outline-danger col-sm-8" href="<c:url value='/league/schedule?lg_num=100'></c:url>">
 							<span class="menu-title">리그일정/결과</span>
 						</a>
 					</li>
@@ -62,7 +63,7 @@
 			<div id="demo3" class="collapse">
 				<ul class="sublist-side">
 					<li class="subitem-side">
-						<a class="sublink-side btn btn-outline-danger col-sm-8" href="<c:url value='/league/recordHit'></c:url>">
+						<a class="sublink-side btn btn-outline-danger col-sm-8" href="<c:url value='/league/recordHit?lg_num=100}'></c:url>">
 							<span class="menu-title">선수기록</span>
 						</a>
 					</li>
@@ -75,5 +76,6 @@
 			</div>
 		</li>
 	</ul>
+
 </sidebar>
 

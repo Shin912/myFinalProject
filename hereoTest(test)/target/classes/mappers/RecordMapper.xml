@@ -45,7 +45,7 @@
 	</select>
 	<select id="selectAllHitRecord" resultMap="PlayerrecordHitter">
 		select * from `playerrecord-hitter`
-
+			where ph_mr_num = #{lg_num}
 	</select>
 
 </mapper>

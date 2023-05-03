@@ -27,4 +27,18 @@ public class LeagueScheduleVO {
 		}
 		return format.format(ls_match_date);	
 	}
+	public String getLs_match_date_str2() {
+		SimpleDateFormat format = new SimpleDateFormat("MM월dd일(E)");
+		if(ls_match_date == null) {
+			return "";
+		}
+		return format.format(ls_match_date);	
+	}
+	public String getLs_match_date_str3	() {
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+		if(ls_match_date == null) {
+			return "";
+		}
+		return format.format(ls_match_date);	
+	}
 }

@@ -19,7 +19,7 @@ public interface LeagueService {
 
 	ArrayList<LeagueVO> selectLeaguesByCriAndState(String state, Criteria cri);
 
-	ArrayList<LeagueVO> selectLeagueByLgNum(int lg_num);
+	LeagueVO selectLeagueByLgNum(int lg_num);
 
 	ArrayList<LeagueAttributeVO> selectLeagueAttByLgNum(int lg_num);
 

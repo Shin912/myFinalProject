@@ -12,6 +12,6 @@ import com.hereo.project.vo.TeamVO;
 
 public interface RecordDAO {
 
-	ArrayList<PlayerrecordHitterVO> selectAllHitRecord();
+	ArrayList<PlayerrecordHitterVO> selectAllHitRecord(@Param("lg_num")int lg_num);
 
 }

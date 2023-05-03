@@ -12,6 +12,6 @@ import com.hereo.project.pagination.Criteria;
 
 public interface RecordService {
 
-	ArrayList<PlayerrecordHitterVO> getSelectAllHitRecord();
+	ArrayList<PlayerrecordHitterVO> getSelectAllHitRecord(int lg_num);
 
 }

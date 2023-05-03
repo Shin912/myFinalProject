@@ -17,7 +17,7 @@ public interface LeagueDAO {
 
 	ArrayList<LeagueVO> selectLeaguesByCriAndState(@Param("state")String state, @Param("cri")Criteria cri);
 
-	ArrayList<LeagueVO> selectLeagueByLgNum(@Param("lg_num")int lg_num);
+	LeagueVO selectLeagueByLgNum(@Param("lg_num")int lg_num);
 
 	ArrayList<LeagueAttributeVO> selectLeagueAttByLgNum(@Param("la_lg_num")int lg_num);
 
