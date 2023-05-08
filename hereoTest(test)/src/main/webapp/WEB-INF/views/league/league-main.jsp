@@ -145,6 +145,7 @@
 							</thead>
 							<tbody>
 								<c:forEach items="${leagueParti }" var="lp">
+								
 										<tr>
 											<th>등수</th>
 											<td>
@@ -157,6 +158,7 @@
 												<span class="red">승률</span>
 											</td>
 										</tr>
+								
 								</c:forEach>
 							</tbody>
 						</table>

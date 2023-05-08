@@ -10,6 +10,6 @@ public class LeagueParticipationteamVO {
 	private int lp_tm_num;
 	private int lp_le_num;
 	private int lp_approval;
-	private TeamVO lp_team_img;
-	private TeamVO lp_team_name;
+	private TeamVO lp_team;
+	private LeagueScheduleVO lp_leagueSchedule;
 }

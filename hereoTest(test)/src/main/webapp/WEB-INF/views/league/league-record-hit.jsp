@@ -10,10 +10,10 @@
 	<div class="top-box">
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a class="nav-link hit active" href="<c:url value='/league/recordHit'></c:url>">타자</a>
+				<a class="nav-link hit active" href="<c:url value='/league/recordHit/${lg_num }'></c:url>">타자</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link pit" href="<c:url value='/league/recordPit'></c:url>">투수</a>
+				<a class="nav-link pit" href="<c:url value='/league/recordPit/${lg_num }'></c:url>">투수</a>
 			</li>
 
 		</ul>
@@ -125,11 +125,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${hList}" var="pl">	
+					<c:forEach items="${hList}" var="pl">
 						<tr>
 							<td>1</td>
-							<td>${pl.ph_me_name.me_name(${pl.ph_tp_backnum.tp_backnum})}</td>
-							<td>${pl.ph_tm_name.tm_name}</td>
+							<td>${pl.ph_members.me_name}(${pl.ph_tPlayer.tp_backnum})</td>
+							<td>${pl.ph_team.tm_name}</td>
 							<td>0.364</td>
 							<td>1</td>
 							<td>${pl.ph_bats}</td>

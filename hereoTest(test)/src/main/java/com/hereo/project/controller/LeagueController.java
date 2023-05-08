@@ -42,7 +42,7 @@ public class LeagueController {
 	@Autowired
 	RegionDAO regionDao;
 	
-	@RequestMapping(value = "/league/leagueSearch", method = RequestMethod.GET) //메소드의 역할?
+	@RequestMapping(value = "/league/leagueSearch", method = RequestMethod.GET) 
 	public ModelAndView leagueSearch(ModelAndView mv , Criteria cri) {
 		int totalCount = leagueService.countLeague("활동중", cri);
 		if(cri==null) {
@@ -62,9 +62,9 @@ public class LeagueController {
 		return mv;
 	}	
 	
-	@RequestMapping(value = "/league/main{lg_num}", method = RequestMethod.GET)
+	@RequestMapping(value = "/league/main/{lg_num}", method = RequestMethod.GET)
 	public ModelAndView leagueMain(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
-		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);
+		//리그 메인페이지
 		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
 		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
 		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(lg_num);
@@ -72,16 +72,16 @@ public class LeagueController {
 		mv.addObject("leagueParti", leagueParti);
 		mv.addObject("leagueSche", leagueSche);
 		mv.addObject("leagueAtt",leagueAtt);
-		mv.addObject("league", league);
+		mv.addObject("lg_num", lg_num);
 		mv.setViewName("/league/league-main");
 		return mv;
 	}
-	@RequestMapping(value = "/league/recordHit", method = RequestMethod.GET)
-	public ModelAndView leagueRecordHit(ModelAndView mv, Integer lg_num) {
-		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);	
+	@RequestMapping(value = "/league/recordHit/{lg_num}", method = RequestMethod.GET)
+	public ModelAndView leagueRecordHit(ModelAndView mv, @PathVariable("lg_num")int lg_num) {	
+		//리그 기록실 타자기록페이지
 		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord(lg_num);
 		
-
+		mv.addObject("lg_num", lg_num);
 		mv.addObject("hList", hList);
 		mv.setViewName("/league/league-record-hit");
 		return mv;
@@ -96,18 +96,17 @@ public class LeagueController {
 		mv.setViewName("/league/league-record-team");
 		return mv;
 	}
-	@RequestMapping(value = "/league/schedule", method = RequestMethod.GET)
-	public ModelAndView leagueSchedule(ModelAndView mv, Integer lg_num) {
-		LeagueVO league = leagueService.selectLeagueByLgNum(lg_num);
-		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(league.getLg_num());
-		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(league.getLg_num());
-		
-		//leagueAtt null뜸
-		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(league.getLg_num());
+	@RequestMapping(value = "/league/schedule/{lg_num}", method = RequestMethod.GET)
+	public ModelAndView leagueSchedule(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
+		ArrayList<LeagueAttributeVO> leagueAtt = leagueService.selectLeagueAttByLgNum(lg_num);
+		ArrayList<LeagueParticipationteamVO> leagueParti = leagueService.getSelectLeagueParti(lg_num);
+		ArrayList<LeagueScheduleVO> leagueSche = leagueService.selectLeagueSchedule(lg_num);
 
+		
 		mv.addObject("leagueSche", leagueSche);
 		mv.addObject("leagueParti", leagueParti);
 		mv.addObject("leagueAtt", leagueAtt);
+		mv.addObject("lg_num", lg_num);
 		mv.setViewName("/league/league-schedule");
 		return mv;
 	}
