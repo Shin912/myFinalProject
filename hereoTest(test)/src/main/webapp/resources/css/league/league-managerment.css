@@ -13,8 +13,8 @@ select {
 }
 
 .container-box {
-	position: relative; margin-left: 500px;
-	top: 200px;
+	position: relative; margin-left: 400px;
+	top: 150px;
 }
 .form-group{
 	display: inline-block;

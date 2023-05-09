@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hereo.project.dao.LeagueDAO;
+import com.hereo.project.dao.MembersDAO;
 import com.hereo.project.pagination.Criteria;
 import com.hereo.project.vo.LeagueAttributeVO;
 import com.hereo.project.vo.LeagueParticipationteamVO;
@@ -19,6 +20,8 @@ import com.hereo.project.vo.TeamVO;
 public class LeagueServiceImp implements LeagueService {
 	@Autowired
 	LeagueDAO leagueDao;
+	@Autowired
+	MembersDAO membersDao;
 
 	@Override
 	public int countLeague(String state, Criteria cri) {
@@ -59,16 +62,24 @@ public class LeagueServiceImp implements LeagueService {
 			return false;
 		if(!checkLeague(league)) // 필요한 리그정보 없을시 실패
 			return false;
-		league.setLg_me_id(user.getMe_id());
-		
 		leagueDao.insertLeague(league);
+		
 		return true;
 	}
 	private boolean checkLeague(LeagueVO league) {
 		//리그정보체크
-		if(league == null || league.getLg_name() == null)
+		if(league == null || league.getLg_name() == null || league.getLg_re_num() == 0)
 			return false;
 		return true;
+	}
+	@Override
+	public boolean checkLeagueName(String lg_name) {
+		if(lg_name == null || lg_name.trim().equals(""))
+			return false;
+		ArrayList<LeagueVO> leagueList = leagueDao.checkLeagueName(lg_name);
+		if(leagueList == null || leagueList.size() == 0)
+			return true;
+		return false;
 	}
 
 }

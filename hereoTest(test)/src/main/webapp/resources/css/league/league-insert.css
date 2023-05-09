@@ -8,22 +8,24 @@ h2{
     text-align: center;
 }
 .main-container{
-    margin-top: 200px; margin-left: 350px;
-    background-color: antiquewhite;
-    width: 700px;
+    margin-top: 150px; margin-left: 500px;
+    width: 850px; border-radius: 15px;
 }
 label{
 	margin-left: 20px;
 }
 
 .form-group .league-logo{
-    width: 400px; margin-top: 10px;
+    width: 400px;
 }
 
 .form-group .league-name{
-    width: 400px;
+    width: 400px; float: left;
+}
+.form-group .btn-duplicateCheck{
+	margin-left: 15px;
 }
 .form-group .league-introduce{
     width: 400px;   height: 300px;
-    text-align: top;
+    
 }

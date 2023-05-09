@@ -257,7 +257,6 @@ public class TeamController {
 		map.put("res", res);
 		return map;
 		
-		
 	}
 //	팀 정보 수정 페이지
 	@RequestMapping(value = "/team/modify", method = RequestMethod.GET)

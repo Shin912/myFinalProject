@@ -29,6 +29,8 @@ public interface LeagueService {
 
 	Boolean insertLeague(MembersVO user, LeagueVO league);
 
+	boolean checkLeagueName(String lg_name);
+
 
 
 }

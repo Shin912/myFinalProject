@@ -37,6 +37,10 @@ public interface LeagueDAO {
 
 	void insertLeague(@Param("lg")LeagueVO league);
 
+	ArrayList<LeagueVO> selectLeague();
+
+	ArrayList<LeagueVO> checkLeagueName(@Param("lg_name")String lg_name);
+
 
 
 }

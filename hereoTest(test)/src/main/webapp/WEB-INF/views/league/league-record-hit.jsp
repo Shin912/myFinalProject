@@ -130,7 +130,7 @@
 							<td>1</td>
 							<td>${pl.ph_members.me_name}(${pl.ph_tPlayer.tp_backnum})</td>
 							<td>${pl.ph_team.tm_name}</td>
-							<td>0.364</td>
+							<td>${(pl.ph_single_hits + pl.ph_twobase_hits + pl.ph_threebase_hits + pl.ph_homeruns) / pl.ph_hits }</td>
 							<td>1</td>
 							<td>${pl.ph_bats}</td>
 							<td>${pl.ph_hits }</td>
@@ -156,6 +156,7 @@
 	
 	
 <script>
-
+	let hitRate = ${(pl.ph_single_hits + pl.ph_twobase_hits + pl.ph_threebase_hits + pl.ph_homeruns) / pl.ph_hits };
+	
 
 </script>
