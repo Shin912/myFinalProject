@@ -80,10 +80,11 @@ public class LeagueController {
 		return mv;
 	}
 	@RequestMapping(value = "/league/recordHit/{lg_num}", method = RequestMethod.GET)
-	public ModelAndView leagueRecordHit(ModelAndView mv, @PathVariable("lg_num")int lg_num) {	
+	public ModelAndView leagueRecordHit(ModelAndView mv, @PathVariable("lg_num")int lg_num
+			, Criteria cri) {	
 		//리그 기록실 타자기록페이지
 		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord(lg_num);
-		
+
 		mv.addObject("lg_num", lg_num);
 		mv.addObject("hList", hList);
 		mv.setViewName("/league/league-record-hit");

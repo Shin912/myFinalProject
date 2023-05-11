@@ -96,7 +96,7 @@
 		rules:{
 			le_name : {
 				required : true,
-				regex : /^[a-zA-Z][a-zA-Z0-9!@#$]{4,12}$/
+				regex : /^[a-zA-Z][a-zA-Z0-9]{5,20}$/
 			},
 			le_re_num : {
 				required : true
