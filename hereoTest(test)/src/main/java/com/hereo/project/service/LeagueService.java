@@ -31,6 +31,8 @@ public interface LeagueService {
 
 	boolean checkLeagueName(String lg_name);
 
+	int countLeaguePlayer(Criteria cri);
+
 
 
 }

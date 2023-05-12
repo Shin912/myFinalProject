@@ -46,18 +46,20 @@ public class LeagueController {
 	RegionDAO regionDao;
 	
 	@RequestMapping(value = "/league/leagueSearch", method = RequestMethod.GET) 
-	public ModelAndView leagueSearch(ModelAndView mv , Criteria cri) {
+	public ModelAndView leagueSearch(ModelAndView mv , Criteria cri, HttpSession session) {
+		MembersVO user = (MembersVO)session.getAttribute("user");
 		int totalCount = leagueService.countLeague("활동중", cri);
 		if(cri==null) {
 			cri = new Criteria();
 		}
-		cri.setPerPageNum(8);
-		PageMaker pm = new PageMaker(totalCount, 8, cri);	
+		cri.setPerPageNum(6);
+		PageMaker pm = new PageMaker(totalCount, 6, cri);	
 		
 		ArrayList<LeagueVO> leagueList = leagueService.selectLeaguesByCriAndState( "활동중", pm.getCri());
 		
 		RegionVO[] regionArr = regionDao.selectAllRegion();
 		
+		mv.addObject("user",user);
 		mv.addObject("league", leagueList);
 		mv.addObject("region", regionArr);
 		mv.addObject("pm", pm);
@@ -82,11 +84,18 @@ public class LeagueController {
 	@RequestMapping(value = "/league/recordHit/{lg_num}", method = RequestMethod.GET)
 	public ModelAndView leagueRecordHit(ModelAndView mv, @PathVariable("lg_num")int lg_num
 			, Criteria cri) {	
+		int totalCount = leagueService.countLeaguePlayer(cri);
+		if(cri==null) {
+			cri = new Criteria();
+		}
+		cri.setPerPageNum(10);
+		PageMaker pm = new PageMaker(totalCount, 10, cri);
 		//리그 기록실 타자기록페이지
 		ArrayList<PlayerRecordHitterVO> hList = recordService.getSelectLeagueHitRecord(lg_num);
 
 		mv.addObject("lg_num", lg_num);
 		mv.addObject("hList", hList);
+		mv.addObject("pm", pm);
 		mv.setViewName("/league/league-record-hit");
 		return mv;
 	}
@@ -138,6 +147,7 @@ public class LeagueController {
 		MembersVO user = (MembersVO)session.getAttribute("user");
 		if(user == null)
 			mv.setViewName("/league/leagueSearch");
+		mv.addObject("user", user);
 		mv.setViewName("/league/league-insert");
 		return mv;
 	}
@@ -145,6 +155,7 @@ public class LeagueController {
 	@RequestMapping(value = "/league/leagueInsert", method = RequestMethod.POST)
 	public ModelAndView leagueInsertPOST(ModelAndView mv, LeagueVO league ,HttpSession session) {
 		MembersVO user = (MembersVO)session.getAttribute("user");
+		
 		leagueService.insertLeague(user, league);
 		mv.setViewName("redirect:/league/leagueSearch");
 		return mv;

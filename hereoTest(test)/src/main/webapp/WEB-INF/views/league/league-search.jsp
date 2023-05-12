@@ -46,11 +46,12 @@
       <div class="btn btn-insert-league btn-success" >
       	<a href="<c:url value='/league/leagueInsert'></c:url>">리그생성신청하기</a>
       </div>
+
       
       <div class="container-pagenation">
 			<ul class="pagination justify-content-center">
 				<c:if test="${pm.prev}">
-					<li class="page-item prev"><a href="<c:url value='/team/main?page=${pm.startPage - 1}&search=${pm.cri.search}&type=${pm.cri.type }'></c:url>" class="page-link">이전</a></li>
+					<li class="page-item prev"><a href="<c:url value='/league/leagueSearch?page=${pm.startPage - 1}&search=${pm.cri.search}&type=${pm.cri.type }'></c:url>" class="page-link">이전</a></li>
 				</c:if>
 				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="index">
 					<li class="page-item
@@ -59,7 +60,7 @@
 					</li>
 				</c:forEach>
 				<c:if test="${pm.next}">
-					<li class="page-item next"><a href="<c:url value='/team/main?page=${pm.startPage + 1}&search=${pm.cri.search}&type=${pm.cri.type }'></c:url>" class="page-link">다음</a></li>
+					<li class="page-item next"><a href="<c:url value='/league/leagueSearch?page=${pm.startPage + 1}&search=${pm.cri.search}&type=${pm.cri.type }'></c:url>" class="page-link">다음</a></li>
 				</c:if>
 			</ul>
 		</div>

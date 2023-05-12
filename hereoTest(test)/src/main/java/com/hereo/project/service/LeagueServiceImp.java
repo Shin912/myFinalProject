@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hereo.project.dao.LeagueDAO;
 import com.hereo.project.dao.MembersDAO;
+import com.hereo.project.dao.RecordDAO;
 import com.hereo.project.pagination.Criteria;
 import com.hereo.project.vo.LeagueAttributeVO;
 import com.hereo.project.vo.LeagueParticipationteamVO;
@@ -20,6 +21,8 @@ import com.hereo.project.vo.TeamVO;
 public class LeagueServiceImp implements LeagueService {
 	@Autowired
 	LeagueDAO leagueDao;
+	@Autowired
+	RecordDAO recordDao;
 	@Autowired
 	MembersDAO membersDao;
 
@@ -80,6 +83,10 @@ public class LeagueServiceImp implements LeagueService {
 		if(leagueList == null || leagueList.size() == 0)
 			return true;
 		return false;
+	}
+	@Override
+	public int countLeaguePlayer(Criteria cri) {
+		return recordDao.countLeaguePlayer(cri);
 	}
 
 }
