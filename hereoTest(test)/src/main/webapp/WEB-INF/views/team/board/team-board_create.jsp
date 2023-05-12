@@ -58,6 +58,8 @@
 							<textarea id="summernote" name="bo_content"></textarea>
 						
 						</li>
+						<input type="text" name="resArr" hidden readonly>
+						<input type="text" name="tmpArr" hidden readonly>
 						<li class="file-box">
 							<div class="form-froup">
 								<input type="file" name="files" class="form-control-file border">
@@ -79,21 +81,56 @@
 		</div>
 	</section>
 </body>
+<script src="https://kit.fontawesome.com/bedfa56d7f.js"
+      crossorigin="anonymous"></script>
 <script>
 	   $('#summernote').summernote({
 		lang: 'ko-KR',
         placeholder: '게시글 내용을 입력해주세요.',
+        dialogsInBody: true,
         tabsize: 2,
-        height: 300
+        height: 300,
+        callbacks : {
+        	onImageUpload: function(files, editor, welEditable){
+        		for(var i = files.length -1 ; i>=0; i--){
+        			sendFile(files[i], this);
+        		}
+        	}
+        }
       });
+	  let tmpImgArr = []; 
+	  function sendFile(file, el){
+		  var form_data = new FormData();
+		  form_data.append('file', file);
+		  $.ajax({
+			  data:form_data,
+			  type:"POST",
+			  url: '<c:url value="/ajax/image"></c:url>',
+			  cache: false,
+			  contentType: false,
+			  enctype: 'multipart/form-data',
+			  processData: false,
+			  success: function(data){
+				  let path = '<c:url value="/files"></c:url>';
+				  let url = path + data.uploadFile;
+				  $(el).summernote('editor.insertImage', url+"?dat_aNum="+data.fileNum);
+				  $('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+				  tmpImgArr.push(data.fileNum);
+			  }
+		  })
+	  }
+	   
 	   
 
-      src="https://kit.fontawesome.com/bedfa56d7f.js"
-      crossorigin="anonymous"
+      
     </script>
     <script>
     $('#boardForm').on('submit', function(e) {
-  	  
+  	  <c:if test="${empty loginUser}">
+  	  alert("로그인 한 유저만 글을 작성할 수 있습니다.");
+  	  return false;
+  	  </c:if>
+    	
   	  if($('#summernote').summernote('isEmpty')) {
   	    alert('내용을 입력해주세요.');
   	
@@ -105,10 +142,31 @@
   		e.preventDefault();
   		return false;
   	 }
+  	  let resImgArr = checkDataNum();
+  	  $('[name=resArr]').val(resImgArr.toString());
+  	  $('[name=tmpArr]').val(tmpImgArr.toString());
+  	  return true;
     })
+    
     $('.btn-submit').click(function(){
     	$('.btn-hidden').click();
     })
+  
+	function checkDataNum(){
+    	let resArr =[];
+      	var summernoteContent = $('#summernote').summernote('code');        //썸머노트(설명)
+    	const dataNumRegExp=/dat_aNum=[0-9]*/;
+        const numRegExp=/[0-9]*/;
+        let imgs = $(summernoteContent).find('img');
+        for(tmpimg of imgs){
+        	let str = $(tmpimg).attr('src')
+        	let tmp = str.match(dataNumRegExp)[0];
+        	let res = tmp.substr(tmp.indexOf('=')+1);
+			resArr.push(res);	        
+        
+        }
+        return resArr;
+    }
     
-
+	
     </script>

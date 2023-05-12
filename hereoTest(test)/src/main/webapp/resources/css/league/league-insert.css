@@ -20,11 +20,10 @@ label{
 }
 
 .form-group .league-name{
+	display: inlineblock; position: relative;
     width: 400px; float: left;
 }
-.form-group .btn-duplicateCheck{
-	margin-left: 15px;
-}
+
 .form-group .league-introduce{
     width: 400px;   height: 300px;
     

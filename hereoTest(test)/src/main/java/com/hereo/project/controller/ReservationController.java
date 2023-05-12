@@ -1,65 +1,66 @@
 package com.hereo.project.controller;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hereo.project.dao.RegionDAO;
 import com.hereo.project.service.ReservationService;
+import com.hereo.project.utils.MessageUtils;
+import com.hereo.project.vo.BoardCategoryVO;
+import com.hereo.project.vo.BoardTypeVO;
+import com.hereo.project.vo.MembersVO;
+import com.hereo.project.vo.RegionVO;
+import com.hereo.project.vo.StadiumScheduleVO;
+import com.hereo.project.vo.StadiumTimetableVO;
+import com.hereo.project.vo.StadiumVO;
 
 
 @Controller
 public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
+	
+	@Autowired
+	RegionDAO regionDao;
 	//예약 메인 페이지
 	@RequestMapping(value = "/reservation/main", method = RequestMethod.GET)
 	public ModelAndView reservationMainPage(ModelAndView mv) {
+		RegionVO[]regionList = regionDao.selectAllRegion();
+		
+		mv.addObject("regionList", regionList);
 		mv.setViewName("/reservation/reservation-main");
 		return mv;
 	}
-	//
-	@RequestMapping(value = "/reservation/stadium-insert", method = RequestMethod.GET)
-	public ModelAndView reservationStadiumInsert(ModelAndView mv) {
-		mv.setViewName("/reservation/reservation-stadium_insert");
-		return mv;
+	//임시로 만들어 놓은 스타디움 인포 메서드
+	@GetMapping(value={"/reservation/stadium-info"})
+	public String reserveInfo(Model model) {
+		int st_num = 1;
+		ArrayList<StadiumVO> sd= reservationService.getStadiumTimetable(st_num);
+		System.out.println("인포메서드 확인용"+sd);
+		model.addAttribute("sd",sd);
+		return "/reservation/reservation-stadium_info";
 	}
-//	@RequestMapping(value = "/reservation/stadium-insert", method=RequestMethod.POST)
-//	public ModelAndView reservationStadiumInsertPost(ModelAndView mv,
-//			BoardVO board, 
-//			HttpSession session, MultipartFile []files) {
-//		//세션에 있는 회원 정보 가져옴. 작성자에 넣어주려고
-//		MemberVO user = (MemberVO)session.getAttribute("user");
-//		//게시글 정보와 회원 정보를 이용하여 게시글 등록하라고 시킴
-//		boardService.insertBoard(board, user, files);
-//		mv.setViewName("redirect:/board/list");
-//		return mv;
-//	}
-	@RequestMapping(value = "/reservation/stadium-list", method = RequestMethod.GET)
-	public ModelAndView reservationStadiumList(ModelAndView mv) {
-		mv.setViewName("/reservation/reservation-stadium_list");
-		return mv;
+	//임시로 만들어 놓은 결제창 메서드
+	@GetMapping(value= {"/reservation/payment"})
+	public String reservePayment(HttpSession session, @RequestParam("stadium") int st_num, Model model) {
+		MembersVO user=(MembersVO)session.getAttribute("loginUser");
+		StadiumTimetableVO st=reservationService.getStadiumTimetableForPay(st_num);
+		model.addAttribute("st", st);
+		return "/reservation/reservation-stadium_payment";
 	}
-	
-	@RequestMapping(value = "/reservation/stadium-info", method = RequestMethod.GET)
-	public ModelAndView stadiumInfo(ModelAndView mv) {
-		mv.setViewName("/reservation/reservation-stadium_info");
-		return mv;
-	}
-	@RequestMapping(value = "/reservation/stadium-detail", method = RequestMethod.GET)
-	public ModelAndView stadiumDetail(ModelAndView mv) {
-		mv.setViewName("/reservation/reservation-stadium_detail");
-		return mv;
-	}
-	@RequestMapping(value = "/reservation/reservation-stadium", method = RequestMethod.GET)
-	public ModelAndView stadiumReserve(ModelAndView mv) {
-		mv.setViewName("/reservation/reservation-stadium");
-		return mv;
-	}
-	
+
 }
 	

@@ -6,11 +6,11 @@
     padding: 0 20px;
     position: relative;
     
-    height: 1000px; margin-left: 350px;
+    height: 1000px; margin-left: 20%;
 }
 .container-main .box-main{
     position: relative;
-    top: 150px; left: 30px;
+    top: 200px; left: 30px;
     width: 950px; height: 400px;
 }
 

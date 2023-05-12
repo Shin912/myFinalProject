@@ -1,6 +1,7 @@
 package com.hereo.project.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +49,12 @@ public interface TeamService {
 	public TeamVO selectJoinedTeamByPlNum(int pl_num);
 
 	boolean updateTeam(TeamVO team, Boolean currentLogoDelete, MultipartFile imgFile);
+
+	boolean checkIsLeader(Integer teamNum, String bo_me_id);
+
+	ArrayList<TeamVO> getNewTeam();
+
+	HashMap<String, Object> countTeamTotalMatch(Integer teamNum);
 
 
 

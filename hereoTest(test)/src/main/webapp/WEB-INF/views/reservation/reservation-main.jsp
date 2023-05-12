@@ -21,54 +21,11 @@
                     <li class="item-region">
                         <a href="#" class="link-region btn btn-dark" role="button" data-local="전체">전체</a>
                     </li>
+                    <c:forEach items="${regionList}" var="rl">
                     <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="서울">서울</a>
+                        <a href="#" class="link-region btn btn-light" role="button" data-local="${rl.re_num}">${rl.re_sido}</a>
                     </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="경기">경기</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="부산">부산</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="대구">대구</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="인천">인천</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="대전">대전</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="광주">광주</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="울산">울산</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="강원">강원</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="충남">충남</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="충북">충북</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="전남">전남</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="전북">전북</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="경남">경남</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="경북">경북</a>
-                    </li>
-                    <li class="item-region">
-                        <a href="#" class="link-region btn btn-light" role="button" data-local="제주">제주</a>
-                    </li>
+                    </c:forEach>
                 </ul>
             </div>
             <div class="search_box">
@@ -101,7 +58,7 @@
                             <p><strong>경기</strong></p>
                         </td>
                         <td rowspan="3" id="table-stadium">
-                            <a href="<c:url value='/reservation/stadium-info'></c:url>">
+                            <a href="<c:url value='/reservation/stadium/info'></c:url>">
                                 <img src="강상.jpg" alt="" class="img">
                                 <br>
                                 <strong style="color: black; font-size: 15px;">구장명 : </strong><span>강상제3구장</span>
@@ -172,10 +129,15 @@ $( function() {
       prevText: "이전달",
       dayNamesMin : ['일','월','화','수','목','금','토'],
       monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-      dateFormat : "yy년mm월dd일",
+      dateFormat : "yy/mm/dd",
       minDate: "dtNow", // 오늘 날짜 이전 데이터 클릭 방지
       showButtonPanel:true,
       currentText : "오늘 날짜",
+      onSelect: function(dateText) {
+          var dateText = $(this).val();
+          var url = "<c:url value='/reservation/main?'></c:url>" + dateText.replace(/\//g, "-");
+          window.location.href = url;
+      }
     });
 } );
 $('.link-region').on('click', function() {

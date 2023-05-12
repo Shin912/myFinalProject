@@ -21,17 +21,31 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hereo.project.dao.RegionDAO;
 import com.hereo.project.pagination.Criteria;
 import com.hereo.project.pagination.PageMaker;
+import com.hereo.project.service.AuthService;
+import com.hereo.project.service.LineUpService;
 import com.hereo.project.service.MembersService;
 import com.hereo.project.service.PlayerService;
+import com.hereo.project.service.RecordService;
 import com.hereo.project.service.ScheduleService;
 import com.hereo.project.service.TeamBoardService;
 import com.hereo.project.service.TeamService;
+import com.hereo.project.vo.BatterBoxEventVO;
 import com.hereo.project.vo.BoardCategoryVO;
 import com.hereo.project.vo.BoardFileVO;
+import com.hereo.project.vo.BoardReplyVO;
 import com.hereo.project.vo.BoardVO;
+import com.hereo.project.vo.BoardVoteVO;
+import com.hereo.project.vo.MatchLineUpVO;
+import com.hereo.project.vo.MatchParticipateVO;
+import com.hereo.project.vo.MatchRecordVO;
 import com.hereo.project.vo.MatchScheduleVO;
 import com.hereo.project.vo.MembersVO;
+import com.hereo.project.vo.PlayerRecordHitterVO;
+import com.hereo.project.vo.PlayerRecordPitcherVO;
+import com.hereo.project.vo.PlayerRecordYearHitterVO;
+import com.hereo.project.vo.PlayerRecordYearPitcherVO;
 import com.hereo.project.vo.PlayerVO;
+import com.hereo.project.vo.Position_HopeVO;
 import com.hereo.project.vo.RegionVO;
 import com.hereo.project.vo.TeamApprovalListVO;
 import com.hereo.project.vo.TeamPlayerVO;
@@ -48,6 +62,12 @@ public class TeamController {
 	ScheduleService scheduleService;
 	@Autowired
 	TeamBoardService teamBoardService;
+	@Autowired
+	AuthService authService;
+	@Autowired
+	LineUpService lineUpService;
+	@Autowired
+	RecordService recordService;
 	
 	@Autowired
 	PlayerService playerService;
@@ -204,7 +224,21 @@ public class TeamController {
 	@RequestMapping(value = "/team/pdetail", method = RequestMethod.GET)
 	public ModelAndView teamPlayerDetail(ModelAndView mv, Integer player) {
 		PlayerVO tmpPlayer = playerService.selectPlayerByPl_Num(player);
-		mv.addObject("Player", tmpPlayer);
+//		소속 팀 찾기
+		ArrayList<TeamVO> teamList= teamService.selectTeamByPlNumAndAuth(tmpPlayer.getPl_num(), 3);
+		if(teamList!=null && teamList.size()!=0) {
+			TeamVO team = teamList.get(0);
+			mv.addObject("team", team);
+		}
+		ArrayList<PlayerRecordHitterVO> pHList = playerService.selectPlayerRecordHitter(tmpPlayer.getPl_num());
+		ArrayList<PlayerRecordPitcherVO> pPList = playerService.selectPlayerRecordPitcher(tmpPlayer.getPl_num());
+		ArrayList<PlayerRecordYearHitterVO> yHList = playerService.selectPlayerRecordYearHitter(tmpPlayer.getPl_num());
+		ArrayList<PlayerRecordYearPitcherVO> yPList = playerService.selectPlayerRecordYearPitcher(tmpPlayer.getPl_num());
+		mv.addObject("pHList", pHList);
+		mv.addObject("pPList", pPList);
+		mv.addObject("yHList", yHList);
+		mv.addObject("yPList", yPList);
+		mv.addObject("player", tmpPlayer);
 		mv.setViewName("/team/team-playerdetail");
 		return mv;
 	}
@@ -257,6 +291,7 @@ public class TeamController {
 		map.put("res", res);
 		return map;
 		
+		
 	}
 //	팀 정보 수정 페이지
 	@RequestMapping(value = "/team/modify", method = RequestMethod.GET)
@@ -289,7 +324,34 @@ public class TeamController {
 		return mv;
 	}
 	
+//	팀 정보 수정 페이지
+	@RequestMapping(value = "/team/updatePl", method = RequestMethod.GET)
+	public ModelAndView updatePl(ModelAndView mv, HttpSession session) {
+		ArrayList<Position_HopeVO> pHList= playerService.selectPositionHopeByPlayer((PlayerVO)session.getAttribute("userPlayer"));
+		mv.addObject("pHList", pHList);
+		mv.setViewName("/team/team-updatePl");
+		return mv;
+	}
 	
+//	팀 정보 수정 페이지POST
+
+	@RequestMapping(value = "/team/updatePl", method = RequestMethod.POST)
+	public ModelAndView updatePlPOST(ModelAndView mv, HttpSession session, PlayerVO player, MultipartFile imgFile, String hopePositionStr) {
+		boolean res = playerService.updatePlayer(player, imgFile, hopePositionStr);
+		if(!res) {
+			mv.addObject("msg", "플레이어 정보가 변경되지 않았습니다.");
+			mv.addObject("url", "/team/updatePl");
+			
+		}else {
+			mv.addObject("msg", "플레이어 정보가 변경 되었습니다.");
+			mv.addObject("url", "/team/main");
+			session.removeAttribute("userPlayer");
+
+		}
+
+		mv.setViewName("/common/message");
+		return mv;
+	}
 	
 //	팀 가입 페이지 -get
 	@RequestMapping(value = "/team/join", method = RequestMethod.GET)
@@ -302,16 +364,130 @@ public class TeamController {
 	@RequestMapping(value = "/team/record", method = RequestMethod.GET)
 	public ModelAndView teamRecord(ModelAndView mv, Integer teamNum) {
 		TeamVO tmpTeam = teamService.selectTeamByTm_Num(teamNum);
+		HashMap<String, Object> totalMatch = teamService.countTeamTotalMatch(teamNum);
+		ArrayList<MatchScheduleVO> msList = scheduleService.selectMatchScheduleByTmNum(teamNum);
+		mv.addObject("msList", msList);
+		mv.addObject("totalMatch", totalMatch);
 		mv.addObject("team", tmpTeam);
 		mv.setViewName("/team/team-record");
 		return mv;
 	}
+//	팀 기록 페이지 해당 경기의 정보를 ajax로 가져오는 메서드
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/record", method=RequestMethod.POST)
+	public Map<String, Object>teamRecordAjax(@RequestBody MatchScheduleVO matchSchedule, Integer tm_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MatchRecordVO matchRecord = recordService.selectMatchRecordByMsNum(matchSchedule.getMs_num());
+		if(matchRecord !=null) {
+			ArrayList<MatchParticipateVO> homeTeamPartInList = recordService.selectMatchPartInHome(matchRecord.getMr_num());
+			ArrayList<MatchParticipateVO> awayTeamPartInList = recordService.selectMatchPartInAway(matchRecord.getMr_num());
+			map.put("homePartInList", homeTeamPartInList);
+			map.put("awayPartInList", awayTeamPartInList);
+			map.put("matchRecord", matchRecord);
+				
+		}
+		return map;
+	}
+	
+//	팀 라인업 짜기 페이지
+	@RequestMapping(value = "/team/lineup", method = RequestMethod.GET)
+	public ModelAndView teamLineup(ModelAndView mv, Integer teamNum, Integer ms_num, HttpSession session) {
+//		라인업 짜기 권한 체크 필요(팀장)
+		MembersVO user = (MembersVO)session.getAttribute("loginUser");
+		if(user== null) {
+			mv.addObject("msg", "로그인된 팀 관리자만 이용할 수 있는 메뉴입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+		
+		TeamVO team =  (TeamVO)session.getAttribute("userTeam");
+		if(team== null) {
+			mv.addObject("msg", "팀이 없는 회원입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+		teamNum = 1;
+		if(teamNum != team.getTm_num()) {
+			mv.addObject("msg", "해당 팀의 관리자만 이용할 수 있는 메뉴입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+			
+//		권한 체크 필요
+		
+		if(!teamService.checkIsLeader(teamNum, user.getMe_id())) {
+			mv.addObject("msg", "팀 관리자만 이용할 수 있는 메뉴입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+		
+//		임시 팀번호 및 예약번호 세팅
+		ms_num = 1;
+		ArrayList<MatchLineUpVO> existLineUpList = lineUpService.selectLineUpByTmNumAndMsNum(teamNum, ms_num);
+		
+		
+//		새로운 메서드 필요한 듯 용병이나 팀원 불러오는 메서드
+//		모두 가져간 다음 미가입 팀원은 프론트 페이지에서 거르기로 했음
+		ArrayList<TeamPlayerVO> tPlayerList = playerService.selectTPByTmNum(team.getTm_num());
+		
+//		기존의 플레이어도 보내주기로 함. 나중에 ajax로 읽어오나 미리 보내주나
+		ArrayList<PlayerVO> playerList = playerService.selectPlayerByTm_Num(team.getTm_num());
+		
+		mv.addObject("team", team);
+		mv.addObject("tPlayerList", tPlayerList);
+		mv.addObject("playerList", playerList);
+		mv.addObject("existLineUpList",existLineUpList);
+		mv.setViewName("/team/team-lineup");
+		return mv;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/ajax/lineup_save", method = RequestMethod.POST)
+	public Map<String, Object> teamLineupSave(@RequestBody ArrayList<MatchLineUpVO> lineupList, Integer teamNum, Integer ms_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+//		0 실패 1 성공
+//		임시로 넣어준 ms_num
+		ms_num = 1;
+		ArrayList<MatchLineUpVO> existLineUpList = lineUpService.selectLineUpByTmNumAndMsNum(teamNum, ms_num);
+		if(existLineUpList!=null&&existLineUpList.size()>0) {
+			lineUpService.deleteLineUpByTmNumAndMsNum(teamNum, ms_num);
+		}
+
+		int res = lineUpService.insertMatchLineUp(lineupList);
+		map.put("res", res);
+		return map;
+	}
 //	팀 가입 관리 페이지(팀의 가입 관리)
 	@RequestMapping(value = "/team/wtjPage", method = RequestMethod.GET)
 	public ModelAndView teamWTJPage(ModelAndView mv,Criteria cri, HttpSession session) {
-//		session.getAttribute("myTeam");
-//		session.getAttribute("teamAuth");
-		int teamNum = 64;
+		MembersVO user = (MembersVO)session.getAttribute("loginUser");
+		if(user== null) {
+			mv.addObject("msg", "로그인된 팀 관리자만 이용할 수 있는 메뉴입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+		
+		TeamVO team =  (TeamVO)session.getAttribute("userTeam");
+		if(team== null) {
+			mv.addObject("msg", "팀이 없는 회원입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+		int teamNum = team.getTm_num();
+//		권한 체크 필요
+		
+		if(!teamService.checkIsLeader(teamNum, user.getMe_id())) {
+			mv.addObject("msg", "팀 관리자만 이용할 수 있는 메뉴입니다.");
+			mv.addObject("url", "/team/main");
+			mv.setViewName("/common/message");
+			return mv;
+		}
+		
 //		페이지네이션 코드
 		int wtjCnt = teamService.countWholeWTJ(teamNum, "신청대기");
 		if(cri==null) {
@@ -330,11 +506,12 @@ public class TeamController {
 		mv.setViewName("/team/team_wtj");
 		return mv;
 	}
+	//팀 가입 게시판 
 	@RequestMapping(value = "/team/wtjBoard/{tj_num}", method = RequestMethod.GET)
 	public ModelAndView teamWTJBoard(ModelAndView mv, @PathVariable("tj_num") int tjNum, HttpSession session) {
 //		session.getAttribute("myTeam");
 //		session.getAttribute("teamAuth");
-		int teamNum = 64;
+		
 		TeamWTJoinVO wtj = teamService.selectWTJByTjNum(tjNum);
 		if(wtj!=null) {
 			PlayerVO tmpPlayer = playerService.selectPlayerByPl_Num(wtj.getTj_pl_num());
@@ -486,19 +663,79 @@ public class TeamController {
 	}
 	@RequestMapping(value="/team/board_write", method = RequestMethod.POST)
 	public ModelAndView TeamBoardWritePOST(ModelAndView mv, Integer teamNum, BoardVO board,
-			MultipartFile[] files) {
-		
+			MultipartFile[] files, String resArr, String tmpArr) {
 		
 		boolean res = teamBoardService.insertBoardFromTeamBoard(board, teamNum, files);
-		
+		teamBoardService.updateSummerNoteImg(board.getBo_num(), resArr, tmpArr);
 		mv.addObject("msg", "게시글이 등록되었습니다.");
 		mv.addObject("url", "/team/board_list?teamNum="+teamNum);
 		
 		mv.setViewName("/common/message");
 		return mv;
 	}
+	@RequestMapping(value="/team/board_update", method = RequestMethod.GET)
+	public ModelAndView TeamBoardUpdate(ModelAndView mv, Integer boNum, Integer teamNum, HttpServletRequest req) {
+//		일단 여기서 자격 검증 1회
+		MembersVO user = (MembersVO)req.getSession().getAttribute("loginUser");
+		BoardVO tmpBoard = teamBoardService.selectTeamBoardByBoNum(boNum);
+		String url = req.getHeader("referer");
+
+		if(!user.getMe_id().equals(tmpBoard.getBo_me_id())) {
+			mv.addObject("msg", "잘못된 접근입니다.(사유: 자격 없는 수정)");
+			mv.addObject("url", url);
+			mv.setViewName("/common/message");
+		}
+		
+		
+//		팀 가져오기
+		TeamVO team = teamService.selectTeamByTm_Num(teamNum);
+//		카테고리 가져오기
+		ArrayList<BoardCategoryVO> categoryList = teamBoardService.selectTeamBoardCategory(team.getTm_num());
+//		보드 가져오기
+		
+		ArrayList<BoardFileVO> fileList = teamBoardService.selectTeamBoardFiles(boNum);
+
+		
+		mv.addObject("board", tmpBoard);
+		mv.addObject("team", team);
+		mv.addObject("categoryList", categoryList);
+		mv.addObject("fileList", fileList);
+		mv.setViewName("/team/board/team-board_update");
+		return mv;
+	}
+	
+	@RequestMapping(value="/team/board_update", method = RequestMethod.POST)
+	public ModelAndView TeamBoardUpdatePOST(ModelAndView mv, Integer teamNum, BoardVO board,
+			MultipartFile[] files, String resArr, String tmpArr, HttpServletRequest req, Integer[] removeFileNums) {
+		MembersVO user = (MembersVO)req.getSession().getAttribute("loginUser");
+		String url = req.getHeader("referer");
+
+		if(!user.getMe_id().equals(board.getBo_me_id())) {
+			mv.addObject("msg", "잘못된 접근입니다.(사유: 자격 없는 수정)");
+			mv.addObject("url", url);
+			mv.setViewName("/common/message");
+		}
+		boolean res = teamBoardService.UpdateBoardFromTeamBoard(board, teamNum, files);
+		teamBoardService.updateSummerNoteImg(board.getBo_num(), resArr, tmpArr);
+		if(removeFileNums!=null) {
+			for(Integer reFile : removeFileNums) {
+				teamBoardService.deleteBoardFilesByBFNum(reFile);
+			}
+		}
+		
+		if(res) {
+			mv.addObject("msg", "게시글이 수정되었습니다.");
+		}else {
+			mv.addObject("msg", "게시글 수정에 실패하였습니다.");
+		}
+		mv.addObject("url", "/team/board_list?teamNum="+teamNum);
+		mv.setViewName("/common/message");
+		return mv;
+	}
+	
+	
 	@RequestMapping(value="/team/board_detail", method = RequestMethod.GET)
-	public ModelAndView TeamBoardDetail(ModelAndView mv, Integer teamNum, Integer boNum) {
+	public ModelAndView TeamBoardDetail(ModelAndView mv, Integer teamNum, Integer boNum, HttpSession session) {
 	 
 		TeamVO team = teamService.selectTeamByTm_Num(teamNum);
 		BoardVO board = teamBoardService.selectTeamBoardByBoNum(boNum);
@@ -521,10 +758,78 @@ public class TeamController {
 		mv.setViewName("/team/board/team-board_detail");
 		return mv;
 	}
-	
+//	게시판 댓글 작업
+	@RequestMapping(value="/team/board_reply_insert", method = RequestMethod.POST)
+	public ModelAndView TeamBoardReplyPOST(ModelAndView mv, BoardReplyVO reply, HttpServletRequest req) {
+		
+		String url = req.getHeader("referer");
+		boolean res = teamBoardService.insertReply(reply);
+		if(res) {
+			mv.addObject("msg", "댓글이 등록되었습니다.");
+			
+		}else {
+			mv.addObject("msg", "댓글 등록에 실패하였습니다.");
+		}
+		mv.addObject("url", url);
+		mv.setViewName("/common/message");
+		return mv;
+	}
+//	게시판 댓글 수정
+	@RequestMapping(value="/team/board_reply_update", method = RequestMethod.POST)
+	public ModelAndView TeamBoardReplyUpdatePOST(ModelAndView mv, BoardReplyVO reply, HttpServletRequest req) {
+		String url = req.getHeader("referer");
+		
+		int br_num = reply.getBr_num();
+		reply.setBr_num(br_num);
+		
+		boolean res = teamBoardService.updateReply(reply);
+		if(res) {
+			mv.addObject("msg", "댓글이 수정되었습니다.");
+			
+		}else {
+			mv.addObject("msg", "댓글 수정에 실패하였습니다.");
+		}
+		mv.addObject("url", url);
+		mv.setViewName("/common/message");
+		return mv;
+	}
+	@RequestMapping(value="/team/board_delete", method = RequestMethod.POST)
+	public ModelAndView TeamBoardDeletePOST(ModelAndView mv, Integer teamNum, BoardVO board) {
+		
+		boolean res = teamBoardService.deleteTeamBoard(board.getBo_num(), board.getBo_me_id());
+		
+		mv.addObject("msg", "게시글이 삭제되었습니다.");
+		mv.addObject("url", "/team/board_list?teamNum="+teamNum);
+		
+		mv.setViewName("/common/message");
+		return mv;
+	}
+	@RequestMapping(value="/team/board_deleteAuth", method = RequestMethod.POST)
+	public ModelAndView TeamBoardDeleteAuthPOST(ModelAndView mv, Integer teamNum, Integer auth, BoardVO board) {
+		
+		boolean res = teamService.checkIsLeader(teamNum, board.getBo_me_id());
+		mv.addObject("msg", "잘못된 접근입니다..");
+		mv.addObject("url", "/team/board_list?teamNum="+teamNum);
+		mv.setViewName("/common/message");
+		if(!res) {
+			return mv;
+		}
+		
+		res = teamBoardService.deleteTeamBoardByAuth(board.getBo_num());
+		if(!res) {
+			return mv;
+			
+		}else {
+			mv.addObject("msg", "관리자 권한으로 게시글이 삭제되었습니다.");
+			mv.addObject("url", "/team/board_list?teamNum="+teamNum);
+		}
+		
+		return mv;
+	}
 	
 
 // 공용 ajax 맵핑 코드
+//	팀넘버 가져오기
 	@ResponseBody
 	@RequestMapping(value="/team/ajax/teamNum", method=RequestMethod.POST)
 	public Map<String, Object>getTeamByNumAjax(@RequestBody TeamVO team) {
@@ -534,6 +839,7 @@ public class TeamController {
 		map.put("team", tmp);
 		return map;
 	}
+//	팀의 다음 경기 
 	@ResponseBody
 	@RequestMapping(value="/team/ajax/nextMatch", method=RequestMethod.POST)
 	public Map<String, Object>getNextMatchByNumAjax(@RequestBody TeamVO team) {
@@ -545,6 +851,53 @@ public class TeamController {
 		}
 		return map;
 	}
+//	좋아요싫어요수
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/boardVote", method=RequestMethod.POST)
+	public Map<String, Object>setBoardVote(@RequestBody BoardVoteVO vote) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int res = teamBoardService.insertOrUpdateVote(vote);
+//		Board의 추천수는 트리거 혹은 프로시저로 db상에서 변경해보기.(범용성)
+		BoardVO board = teamBoardService.selectTeamBoardByBoNum(vote.getBv_bo_num());
+		map.put("boardAfter", board);
+		map.put("vote", vote);
+		map.put("voteRes", res);
+		return map;
+	}
+//	유저 좋아요 싫어요 정보
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/getUserVote", method=RequestMethod.POST)
+	public Map<String, Object>getUserBoardVote(@RequestBody BoardVoteVO vote) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		BoardVoteVO userVote = teamBoardService.selectBoardVoteByBoNumAndMeId(vote.getBv_bo_num(), vote.getBv_me_id());
+		map.put("vote", userVote);
+		return map;
+	}
+//	리플 가져오기
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/getReply", method=RequestMethod.POST)
+	public Map<String, Object>getBoardReply(@RequestBody Criteria cri, Integer boNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int replyCnt = teamBoardService.countReply(boNum);
+		ArrayList<BoardReplyVO> list = teamBoardService.selectReplyByBoNumAndCri(cri, boNum);
+		PageMaker pm = new PageMaker(replyCnt, 10, cri);
+		
+		map.put("replyList", list);
+		map.put("pm", pm);
+		return map;
+	}
+//	리플 지우기
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/deleteReply", method=RequestMethod.POST)
+	public Map<String, Object>deleteBoardReply(@RequestParam("br_num") Integer br_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = teamBoardService.deleteReply(br_num);
+		map.put("res", res);
+		
+		return map;
+	}
+//	me_id로 플레이어 이름과 계급 가져오기
 	@ResponseBody
 	@RequestMapping(value="/team/ajax/playerNameAndRank", method=RequestMethod.POST)
 	public Map<String, Object>getPlayerNameAndRank(@RequestParam("me_id")String me_id, @RequestParam("teamNum")Integer teamNum) {
@@ -559,7 +912,79 @@ public class TeamController {
 		map.put("userTP", tp);		
 		return map;
 	}
+//	tp_num로 플레이어 이름가져오기
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/playerNameByTpNum", method=RequestMethod.POST)
+	public Map<String, Object>getPlayerNameByTpNum(@RequestParam("tp_num")Integer tp_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		PlayerVO player = playerService.selectPlayerByTpNum(tp_num);
+		map.put("player", player);
+		return map;
+	}
 	
+//	tp_num과 mr_num을 보내면 해당 게임 정보를 찾아와주는 메소드(위에꺼에서 더 보충)
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/playerRecord", method=RequestMethod.POST)
+	public Map<String, Object>getPlayerRecord(@RequestParam("tp_num")Integer tp_num, @RequestParam("mr_num")Integer mr_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		PlayerVO player = playerService.selectPlayerByTpNum(tp_num);
+		TeamPlayerVO tp = playerService.selectTeamPlayerByTpNum(tp_num);
+		PlayerRecordHitterVO pRHitter = recordService.selectPlayerRecordHitterByTpNumAndMrNum(tp_num, mr_num);
+		PlayerRecordHitterVO pRPitcher = recordService.selectPlayerRecordPitcherByTpNumAndMrNum(tp_num, mr_num);
+		map.put("pRHitter", pRHitter);
+		map.put("pRPitcher", pRPitcher);
+		map.put("tp", tp);
+		map.put("player", player);
+		return map;
+	}
+//	batterBoxEvent type 보내기
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/batterBoxEvent", method=RequestMethod.POST)
+	public Map<String, Object>getBatterBoxEvent() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<BatterBoxEventVO> batterBoxEventList = recordService.getAllBatterBoxEventList();
+		map.put("batterBoxEventList", batterBoxEventList);
+		return map;
+	}
+	
+//	lineUp보내기
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/sendLineUp", method=RequestMethod.POST)
+	public Map<String, Object>sendLineUp(@RequestParam("ms_num")Integer ms_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<MatchLineUpVO> homeLineUp = lineUpService.selectLineUpOfMatchHome(ms_num);
+		ArrayList<MatchLineUpVO> awayLineUp = lineUpService.selectLineUpOfMatchAway(ms_num);
+		map.put("homeLineUp", homeLineUp);
+		map.put("awayLineUp", awayLineUp);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/getAuth", method=RequestMethod.POST)
+	public Map<String, Object>getAuth(@RequestParam("me_id")String me_id, @RequestParam("tm_num")Integer teamNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("siteAuth", false);
+		if(authService.isSiteManager(me_id)) {
+			map.put("siteAuth", true);
+		}
+		PlayerVO player = playerService.selectPlayerByMeId(me_id);
+		TeamPlayerVO tp= playerService.selectTeamPlayerByPlNumAndTmNum(player.getPl_num(), teamNum);
+		map.put("tp_auth", 0);
+		if(tp!=null) {
+			int tp_auth = tp.getTp_auth();
+			map.put("tp_auth", tp_auth);
+		}
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value="/team/ajax/getOriMeId", method=RequestMethod.POST)
+	public Map<String, Object>getOriReplyMeId(@RequestParam("br_ori_num") Integer br_ori_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String me_id = teamBoardService.selectMeIdByBrOriNum(br_ori_num);
+		map.put("me_id", me_id);
+		return map;
+	}
 	private boolean isUserNull(MembersVO user, ModelAndView mv) {
 		if(user==null) {
 			mv.addObject("msg", "로그인을 해주십시오.");
@@ -569,6 +994,17 @@ public class TeamController {
 			return true;
 		}	
 		return false;
+	}
+	@ResponseBody
+	@RequestMapping(value="/ajax/image", method=RequestMethod.POST)
+	public Map<String, Object>handleFileUpload(@RequestParam("file") MultipartFile file) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		BoardFileVO tmpFile = teamBoardService.uploadSummerNoteImg(file);
+		String uploadFile = tmpFile.getBf_filename();
+		int fileNum = tmpFile.getBf_num();
+		map.put("fileNum", fileNum);
+		map.put("uploadFile", uploadFile);
+		return map;
 	}
 	
 }

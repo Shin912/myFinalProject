@@ -45,8 +45,11 @@
               <ul class="submenu-containerBox1 league-submenu__01">
                 <li>
                   <a href="<c:url value='/league/leagueSearch'></c:url>" target="_top"
-                    >리그 찾기</a
-                  >
+                    >리그찾기</a>
+                    
+                </li>
+                <li>
+                  <a href="<c:url value='/record/insert'></c:url>">기록등록</a>
                 </li>
               </ul>
             </li>
@@ -59,23 +62,8 @@
                   >
                 </li>
                 <li>
-                  <a href="<c:url value='/reservation/stadium-insert'></c:url>"
+                  <a href="<c:url value='/reservation/stadium/list'></c:url>"
                     >구장 등록</a
-                  >
-                </li>
-                <li>
-                  <a href="<c:url value='/reservation/stadium-list'></c:url>"
-                    >구장 등록 확인 리스트</a
-                  >
-                </li>
-                <li>
-                  <a href="<c:url value='/reservation/stadium-detail'></c:url>"
-                    >구장 등록 정보</a
-                  >
-                </li>
-                <li>
-                  <a href="<c:url value='/reservation/stadium-list'></c:url>"
-                    >구장 등록 확인 리스트</a
                   >
                 </li>
               </ul>

@@ -27,7 +27,7 @@ import com.hereo.project.vo.LeagueParticipationteamVO;
 import com.hereo.project.vo.LeagueScheduleVO;
 import com.hereo.project.vo.LeagueVO;
 import com.hereo.project.vo.MembersVO;
-import com.hereo.project.vo.PlayerrecordHitterVO;
+import com.hereo.project.vo.PlayerRecordHitterVO;
 import com.hereo.project.vo.RegionVO;
 import com.hereo.project.vo.TeamPlayerVO;
 import com.hereo.project.vo.TeamVO;
@@ -83,7 +83,7 @@ public class LeagueController {
 	public ModelAndView leagueRecordHit(ModelAndView mv, @PathVariable("lg_num")int lg_num
 			, Criteria cri) {	
 		//리그 기록실 타자기록페이지
-		ArrayList<PlayerrecordHitterVO> hList = recordService.getSelectAllHitRecord(lg_num);
+		ArrayList<PlayerRecordHitterVO> hList = recordService.getSelectLeagueHitRecord(lg_num);
 
 		mv.addObject("lg_num", lg_num);
 		mv.addObject("hList", hList);

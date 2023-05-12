@@ -1,6 +1,7 @@
 package com.hereo.project.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,12 @@ public class TeamServiceImp implements TeamService{
 	@Override
 	public int countTeams(String state, Criteria cri) {
 		return teamDao.countAllTeams(state, cri);
+	}
+	//메인 페이지 new팀 불러오기
+	@Override
+	public ArrayList<TeamVO> getNewTeam() {
+		
+		return teamDao.getNewTeam();
 	}
 
 
@@ -199,6 +206,30 @@ public class TeamServiceImp implements TeamService{
 		return teamDao.updateTeam(team)!= 0;
 	}
 
+	@Override
+	public boolean checkIsLeader(Integer teamNum, String bo_me_id) {
+		if(teamNum == null || bo_me_id == null)
+			return false;
+		TeamVO team = selectTeamByTm_Num(teamNum);
+		if(team.getTm_me_id().equals(bo_me_id)) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public HashMap<String, Object> countTeamTotalMatch(Integer teamNum) {
+		HashMap<String, Object> map = new HashMap<String, Object>(); 
+		if(teamNum==null||teamNum==0)
+			return null;
+		map.put("total", teamDao.countTeamTotalMatch(teamNum));
+		map.put("win", teamDao.countTeamTotalMatchByState(teamNum, "win"));
+		map.put("lose", teamDao.countTeamTotalMatchByState(teamNum, "lose"));
+		map.put("draw", teamDao.countTeamTotalMatchByState(teamNum, "draw"));
+		return map;
+	}
 	
 	
 }

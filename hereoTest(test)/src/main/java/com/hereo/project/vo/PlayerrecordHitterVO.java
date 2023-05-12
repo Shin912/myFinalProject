@@ -1,11 +1,18 @@
 package com.hereo.project.vo;
 
+
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PlayerrecordHitterVO {
+public class PlayerRecordHitterVO {
 	private int ph_num;
 	private int ph_tp_num;
 	private int ph_mr_num;
@@ -25,4 +32,12 @@ public class PlayerrecordHitterVO {
 	private TeamVO ph_team;
 	private MembersVO ph_members;
 	private TeamPlayerVO ph_tPlayer;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date ms_datetime;
+	
+	public String getMs_datetime_str() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(ms_datetime);
+	}
 }
