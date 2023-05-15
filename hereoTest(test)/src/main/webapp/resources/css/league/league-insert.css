@@ -23,7 +23,13 @@ label{
 	display: inlineblock; position: relative;
     width: 400px; float: left;
 }
-
+.form-group .leagueNameCheck{
+	position: relative;
+    width: 400px; margin-top: 27px;
+}
+.form-group .leagueNameCheck .btn{
+	width: 400px;
+}
 .form-group .league-introduce{
     width: 400px;   height: 300px;
     

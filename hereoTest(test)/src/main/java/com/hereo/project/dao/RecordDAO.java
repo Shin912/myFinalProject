@@ -21,7 +21,7 @@ public interface RecordDAO {
 	
 	MatchRecordVO selectMatchRecordByMrNum(int mr_num);
 	
-	ArrayList<PlayerRecordHitterVO> selectLeagueHitRecord(@Param("mr_num")int mr_num);
+	ArrayList<PlayerRecordHitterVO> selectLeagueHitRecord(@Param("mr_num")int mr_num, @Param("cri")Criteria cri);
 
 	MatchRecordVO selectMatchNum(@Param("lm_mr_num")int lm_mr_num);
 

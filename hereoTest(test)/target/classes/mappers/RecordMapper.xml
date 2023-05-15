@@ -5,7 +5,6 @@
 <mapper namespace="com.hereo.project.dao.RecordDAO">
 	<select id="selectAllHitRecord" resultType="com.hereo.project.vo.PlayerRecordHitterVO">
 		select * from `playerrecord-hitter`
-
 	</select>
 		<resultMap type="com.hereo.project.vo.MatchRecordVO" id="MatchRecord">
 			<result column="mr_num" property="mr_num"/>
@@ -135,12 +134,11 @@
 		select * from `playerrecord-hitter`
 			where ph_mr_num = #{mr_num}
 	</select>
-	<select id="countLeaguePlayer" resultType="int">
-		select count(ph_num)
-			from `playerrecord-hitter`
-			where 
-			<if test="cri.type != 0">
-  				ph_tp_num = #{cri.type}  				
-  			</if>
-	</select>
+	  <select id="countLeaguePlayer" resultType="int">
+  	select count(ph_num) from `playerrecord-hitter`
+  		where 
+  		<if test="cri.type != 0">
+  			ph_tp_num = #{cri.type}
+  		</if>
+  </select>
 </mapper>

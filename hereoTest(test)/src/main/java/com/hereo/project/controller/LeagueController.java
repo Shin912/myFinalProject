@@ -91,7 +91,7 @@ public class LeagueController {
 		cri.setPerPageNum(10);
 		PageMaker pm = new PageMaker(totalCount, 10, cri);
 		//리그 기록실 타자기록페이지
-		ArrayList<PlayerRecordHitterVO> hList = recordService.getSelectLeagueHitRecord(lg_num);
+		ArrayList<PlayerRecordHitterVO> hList = recordService.getSelectLeagueHitRecord(lg_num, cri);
 
 		mv.addObject("lg_num", lg_num);
 		mv.addObject("hList", hList);
@@ -144,26 +144,23 @@ public class LeagueController {
 	
 	@RequestMapping(value = "/league/leagueInsert", method = RequestMethod.GET)
 	public ModelAndView leagueInsert(ModelAndView mv, HttpSession session) {
-		MembersVO user = (MembersVO)session.getAttribute("user");
-		if(user == null)
-			mv.setViewName("/league/leagueSearch");
-		mv.addObject("user", user);
+
 		mv.setViewName("/league/league-insert");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/league/leagueInsert", method = RequestMethod.POST)
-	public ModelAndView leagueInsertPOST(ModelAndView mv, LeagueVO league ,HttpSession session) {
-		MembersVO user = (MembersVO)session.getAttribute("user");
+	public ModelAndView leagueInsertPOST(ModelAndView mv, LeagueVO league) {
 		
-		leagueService.insertLeague(user, league);
+		leagueService.insertLeague(league);
+		System.out.println(league);
 		mv.setViewName("redirect:/league/leagueSearch");
 		return mv;
 	}
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/check/leName", method = RequestMethod.POST)
+	@RequestMapping(value = "/check/lgName", method = RequestMethod.POST)
 	public Map<String, Object> checkId(@RequestBody LeagueVO league) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		boolean res = leagueService.checkLeagueName(league.getLg_name());

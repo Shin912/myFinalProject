@@ -59,19 +59,19 @@ public class LeagueServiceImp implements LeagueService {
 		return leagueDao.selectLeagueParti(lg_num);
 	}
 	@Override
-	public Boolean insertLeague(MembersVO user, LeagueVO league) {
+	public Boolean insertLeague(LeagueVO league) {
 		//리그 등록 서비스
-		if(user == null) //로그인체크
-			return false;
+
 		if(!checkLeague(league)) // 필요한 리그정보 없을시 실패
 			return false;
+		
 		leagueDao.insertLeague(league);
 		
 		return true;
 	}
 	private boolean checkLeague(LeagueVO league) {
 		//리그정보체크
-		if(league == null || league.getLg_name() == null || league.getLg_re_num() == 0)
+		if(league == null || league.getLg_name() == null)
 			return false;
 		return true;
 	}
@@ -86,6 +86,7 @@ public class LeagueServiceImp implements LeagueService {
 	}
 	@Override
 	public int countLeaguePlayer(Criteria cri) {
+		cri = cri == null ? new Criteria() : cri;
 		return recordDao.countLeaguePlayer(cri);
 	}
 

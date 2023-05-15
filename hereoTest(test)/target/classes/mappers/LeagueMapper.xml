@@ -85,9 +85,10 @@
 	</select>
 	
 	<!-- league insert  -->
-	<insert id="insertLeague">
-		insert into league(lg_num, lg_name, lg_introduce, lg_start_day, lg_state, lg_approval, lg_logo, lg_re_num, lg_me_id)
-		value ( #{lg.lg_num},#{lg.lg_name},#{lg.lg_introduce},#{lg.lg_start_day},#{lg.lg_state},#{lg.lg_approval},#{lg.lg_logo},#{lg.lg_re_num},#{lg.lg_me_id})
+	<insert id="insertLeague" useGeneratedKeys="true" keyProperty="lg.lg_num">
+		insert into league(lg_num, lg_name, lg_me_id, lg_state, lg_approval)
+		select ifnull(max(lg_num),0)+1, #{lg.lg_name}, #{lg.lg_me_id},'활동중', '2'
+			from league
 	</insert>
 	<select id="selectLeague" resultType="com.hereo.project.vo.LeagueVO">
 		select * from league
@@ -95,6 +96,6 @@
 	</select>
 	<select id="checkLeagueName" resultType="com.hereo.project.vo.LeagueVO">
 		select * from league
-			where le_name = #{le_name}
+			where lg_name = #{lg_name}
 	</select>
 </mapper>
