@@ -16,6 +16,7 @@ public class LeagueAttributeVO {
 	private int la_whole_period;
 	private String la_team_state;
 	private int la_lg_num;
+	private LeagueParticipationteamVO la_lp_team;
 	
 	public String getLa_start_date_str() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy");

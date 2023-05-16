@@ -128,9 +128,22 @@ public class LeagueController {
 	}
 	@RequestMapping(value = "/league/enroll/{lg_num}", method = RequestMethod.GET)
 	public ModelAndView leagueEnroll(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
+		ArrayList<LeagueAttributeVO> laList = leagueService.selectLeagueAttByLgNum(lg_num);
+		ArrayList<LeagueParticipationteamVO> lpList = leagueService.getSelectLeagueParti(lg_num);
 		
-		mv.setViewName("/league/league-enroll");
+		mv.addObject("lpList", lpList);
+		mv.addObject("laList", laList);
 		mv.addObject("lg_num", lg_num);
+		mv.setViewName("/league/league-enroll");
+		return mv;
+	}
+	@RequestMapping(value = "/league/insertType/{lg_num}", method = RequestMethod.GET)
+	public ModelAndView leagueInsertType(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
+		ArrayList<LeagueAttributeVO> laList = leagueService.selectLeagueAttByLgNum(lg_num);
+		
+		mv.addObject("laList", laList);
+		mv.addObject("lg_num", lg_num);
+		mv.setViewName("/league/league-insertType");
 		return mv;
 	}
 	@RequestMapping(value = "/league/partimanagerment", method = RequestMethod.GET)
