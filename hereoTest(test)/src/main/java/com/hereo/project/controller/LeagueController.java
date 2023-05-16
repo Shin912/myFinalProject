@@ -126,9 +126,11 @@ public class LeagueController {
 		mv.setViewName("/league/league-schedule");
 		return mv;
 	}
-	@RequestMapping(value = "/league/enroll", method = RequestMethod.GET)
-	public ModelAndView leagueEnroll(ModelAndView mv) {
+	@RequestMapping(value = "/league/enroll/{lg_num}", method = RequestMethod.GET)
+	public ModelAndView leagueEnroll(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
+		
 		mv.setViewName("/league/league-enroll");
+		mv.addObject("lg_num", lg_num);
 		return mv;
 	}
 	@RequestMapping(value = "/league/partimanagerment", method = RequestMethod.GET)
@@ -153,7 +155,7 @@ public class LeagueController {
 	public ModelAndView leagueInsertPOST(ModelAndView mv, LeagueVO league) {
 		
 		leagueService.insertLeague(league);
-		System.out.println(league);
+		
 		mv.setViewName("redirect:/league/leagueSearch");
 		return mv;
 	}
