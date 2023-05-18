@@ -43,7 +43,14 @@ public interface LeagueDAO {
 
 	LeagueAttributeVO selectLeagueTypeByName(@Param("la_match_type")String la_match_type);
 
-	int insertLaegueType(@Param("la")LeagueAttributeVO la);
+	int insertLeagueType(@Param("la")LeagueAttributeVO la);
+
+	LeagueAttributeVO selectLeagueAttByType(@Param("la_match_type")String la_match_type);
+
+	int updateLeagueType(@Param("la")LeagueAttributeVO la);
+
+	boolean deleteLeagueType(@Param("la_num")Integer la_num);
+
 
 
 

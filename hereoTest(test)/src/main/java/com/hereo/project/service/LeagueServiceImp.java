@@ -90,21 +90,35 @@ public class LeagueServiceImp implements LeagueService {
 		return recordDao.countLeaguePlayer(cri);
 	}
 	
-//	리그타입 등록
+	//리그타입 등록
 	@Override
-	public boolean insertLeagueType(int lg_num, LeagueAttributeVO la) {
+	public boolean insertLeagueType(LeagueAttributeVO la, int lg_num) {
 		if(lg_num == 0)
 			return false;
+		if(la.getLa_name() == null && la.getLa_match_type() == null)
+			return false;
 		la.setLa_lg_num(lg_num);
-		if(la.getLa_lg_num() == 0 && la.getLa_name() == null &&
-				la.getLa_match_type() == null)
+		LeagueAttributeVO dbLa = leagueDao.selectLeagueAttByType(la.getLa_match_type());
+		if( dbLa != null && la.getLa_num() != dbLa.getLa_num()) 
 			return false;
-		
-		LeagueAttributeVO dbLa = leagueDao.selectLeagueTypeByName(la.getLa_match_type());
-		if(dbLa != null && la.getLa_num() != dbLa.getLa_num())
-			return false;
-		
-		return leagueDao.insertLaegueType(la) != 0;
+		return leagueDao.insertLeagueType(la) != 0;
 	}
+	//리그타입 수정
+	@Override
+	public boolean updateLeagueType(LeagueAttributeVO la, int lg_num) {
+		if(lg_num == 0)
+			return false;
+		if(la.getLa_num() < 1 && la.getLa_name() == null && la.getLa_match_type() == null)
+			return false;
+		return leagueDao.updateLeagueType(la) != 0;
+	}
+	@Override
+	public boolean deleteLeagueType(Integer la_num) {
+		if(la_num == null || la_num <= 1)
+			return false;
+		return leagueDao.deleteLeagueType(la_num);
+	}
+	
+
 
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.hereo.project.pagination.PageMaker;
 import com.hereo.project.service.LeagueService;
 import com.hereo.project.service.MembersService;
 import com.hereo.project.service.RecordService;
+import com.hereo.project.utils.MessageUtils;
 import com.hereo.project.vo.LeagueAttributeVO;
 import com.hereo.project.vo.LeagueParticipationteamVO;
 import com.hereo.project.vo.LeagueScheduleVO;
@@ -146,28 +148,43 @@ public class LeagueController {
 		mv.setViewName("/league/league-insertType");
 		return mv;
 	}
-	@RequestMapping(value = "/league/insertType/{lg_num}/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/league/insertType/insert/{lg_num}", method = RequestMethod.POST)
 	public ModelAndView leagueInsertTypePost(ModelAndView mv, @PathVariable("lg_num")int lg_num,
 			LeagueAttributeVO la) {
-		boolean isInsert = leagueService.insertLeagueType(lg_num, la);
-		if(isInsert) {
-				mv.setViewName("/league/insertType/{lg_num}");
-		}else {
-				mv.setViewName("/league/insertType/{lg_num}");	
-		}
+		boolean isInsert = leagueService.insertLeagueType(la, lg_num);
+
+		mv.addObject("lg_num", lg_num);
+		mv.addObject("redirect:/league/insertType/{lg_num}");
+		return mv;
+	}
+	@RequestMapping(value = "/league/insertType/{lg_num}/update", method = RequestMethod.POST)
+	public ModelAndView leagueUpdateTypePost(ModelAndView mv, @PathVariable("lg_num")int lg_num,
+			LeagueAttributeVO la) {
+		boolean isUpdate = leagueService.updateLeagueType(la, lg_num);
 		
 		mv.addObject("lg_num", lg_num);
 		mv.setViewName("redirect:/league/insertType/{lg_num}");
 		return mv;
 	}
-	@RequestMapping(value = "/league/partimanagerment", method = RequestMethod.GET)
-	public ModelAndView leaguePartiManagerment(ModelAndView mv) {
-		mv.setViewName("/league/league-parti-managerment");
+	@RequestMapping(value = "/league/insertType/{lg_num}/delete", method = RequestMethod.GET)
+	public ModelAndView leagueDeleteType(ModelAndView mv,@PathVariable("lg_num")int lg_num,
+			Integer la_num) {
+		boolean isDelete = leagueService.deleteLeagueType( la_num);
+		
+
+		mv.setViewName("redirect:/league/insertType/{lg_num}");
 		return mv;
 	}
-	@RequestMapping(value = "/league/schedulemanagerment", method = RequestMethod.GET)
-	public ModelAndView leagueScheduleManagerment(ModelAndView mv) {
+	@RequestMapping(value = "/league/partimanagerment/{lg_num}", method = RequestMethod.GET)
+	public ModelAndView leaguePartiManagerment(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
+		mv.setViewName("/league/league-parti-managerment");
+		mv.addObject("lg_num", lg_num);
+		return mv;
+	}
+	@RequestMapping(value = "/league/schedulemanagerment/{lg_num}", method = RequestMethod.GET)
+	public ModelAndView leagueScheduleManagerment(ModelAndView mv, @PathVariable("lg_num")int lg_num) {
 		mv.setViewName("/league/league-schedule-managerment");
+		mv.addObject("lg_num", lg_num);
 		return mv;
 	}
 	

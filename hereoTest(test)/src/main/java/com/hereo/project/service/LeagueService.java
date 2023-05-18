@@ -33,7 +33,12 @@ public interface LeagueService {
 
 	int countLeaguePlayer(Criteria cri);
 
-	boolean insertLeagueType(int lg_num, LeagueAttributeVO la);
+	boolean insertLeagueType(LeagueAttributeVO la, int lg_num);
+
+	boolean updateLeagueType(LeagueAttributeVO la, int lg_num);
+
+	boolean deleteLeagueType(Integer la_num);
+
 
 
 
