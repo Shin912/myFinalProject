@@ -41,6 +41,10 @@ public interface LeagueDAO {
 
 	ArrayList<LeagueVO> checkLeagueName(@Param("lg_name")String lg_name);
 
+	LeagueAttributeVO selectLeagueTypeByName(@Param("la_match_type")String la_match_type);
+
+	int insertLaegueType(@Param("la")LeagueAttributeVO la);
+
 
 
 }

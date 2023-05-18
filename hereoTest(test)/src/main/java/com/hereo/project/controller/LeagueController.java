@@ -146,6 +146,20 @@ public class LeagueController {
 		mv.setViewName("/league/league-insertType");
 		return mv;
 	}
+	@RequestMapping(value = "/league/insertType/{lg_num}/insert", method = RequestMethod.POST)
+	public ModelAndView leagueInsertTypePost(ModelAndView mv, @PathVariable("lg_num")int lg_num,
+			LeagueAttributeVO la) {
+		boolean isInsert = leagueService.insertLeagueType(lg_num, la);
+		if(isInsert) {
+				mv.setViewName("/league/insertType/{lg_num}");
+		}else {
+				mv.setViewName("/league/insertType/{lg_num}");	
+		}
+		
+		mv.addObject("lg_num", lg_num);
+		mv.setViewName("redirect:/league/insertType/{lg_num}");
+		return mv;
+	}
 	@RequestMapping(value = "/league/partimanagerment", method = RequestMethod.GET)
 	public ModelAndView leaguePartiManagerment(ModelAndView mv) {
 		mv.setViewName("/league/league-parti-managerment");

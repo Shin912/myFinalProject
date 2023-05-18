@@ -112,4 +112,14 @@
 		select * from league
 			where lg_name = #{lg_name}
 	</select>
+	
+	<!-- league type -->
+	<select id="selectLeagueTypeByName" resultType="om.hereo.project.vo.LeagueAttributeVO">
+		select * from `league-attribute`
+			where la_match_type = #{la_match_type}
+	</select>
+	<insert id="insertLaegueType">
+		insert into `league-attribute`(la_name, la_match_type, la_start_date, la_team_state, la_lg_num)
+		values(#{la.la_name}, #{la.la_match_type}, ifnull(#{la.la_start_date}, now()), '모집중', #{la.la_lg_num})
+	</insert>
 </mapper>

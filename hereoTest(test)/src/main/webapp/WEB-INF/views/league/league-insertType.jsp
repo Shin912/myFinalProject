@@ -48,5 +48,26 @@
 		</c:forEach>
 			
 		</tbody>
+		<tfoot>
+		<tr>
+			<form action="<c:url value='/league/insertType/${lg_num }/insert'></c:url>" method="post">
+				<th></th>
+				<th></th>
+				<th>
+					<div class="form-group">
+						<input type="text" class="form-control" name="la_name" >
+					</div>
+	  			</th>
+				<th>
+					<div class="form-group">
+	  					<input type="text" class="form-control" name="la_match_type" >
+	  				</div>
+				</th>
+				<th>
+					<button class="btn btn-outline-success">등록</button>
+				</th>
+			</form>
+		</tr>
+	</tfoot>
 	</table>
 </div>

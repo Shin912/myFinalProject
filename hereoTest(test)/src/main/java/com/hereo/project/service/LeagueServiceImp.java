@@ -89,5 +89,22 @@ public class LeagueServiceImp implements LeagueService {
 		cri = cri == null ? new Criteria() : cri;
 		return recordDao.countLeaguePlayer(cri);
 	}
+	
+//	리그타입 등록
+	@Override
+	public boolean insertLeagueType(int lg_num, LeagueAttributeVO la) {
+		if(lg_num == 0)
+			return false;
+		la.setLa_lg_num(lg_num);
+		if(la.getLa_lg_num() == 0 && la.getLa_name() == null &&
+				la.getLa_match_type() == null)
+			return false;
+		
+		LeagueAttributeVO dbLa = leagueDao.selectLeagueTypeByName(la.getLa_match_type());
+		if(dbLa != null && la.getLa_num() != dbLa.getLa_num())
+			return false;
+		
+		return leagueDao.insertLaegueType(la) != 0;
+	}
 
 }

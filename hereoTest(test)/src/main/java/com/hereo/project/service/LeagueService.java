@@ -33,6 +33,8 @@ public interface LeagueService {
 
 	int countLeaguePlayer(Criteria cri);
 
+	boolean insertLeagueType(int lg_num, LeagueAttributeVO la);
+
 
 
 }
